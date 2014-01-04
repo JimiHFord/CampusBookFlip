@@ -15,15 +15,14 @@
             <img src="@item.ImageLarge" class="img-thumbnail"/>
         </div>
         <div class="col-md-6 offset2">
-            <h4>@Html.DisplayFor(modelItem => item.Title) <small>@Html.DisplayFor(modelItem => item.PublishDate)</small></h4>
+            <h4>@Html.DisplayFor(modelItem => item.Title) <small title="Publish Date">@Html.DisplayFor(modelItem => item.PublishDate)</small></h4>
             <div><small><strong>Pages:</strong> @Html.DisplayFor(modelItem => item.PageCount)</small></div>
         </div>
         <div class="col-md-4 offset8">
-            <div><small><strong>List:</strong> @Html.DisplayFor(modelItem => item.List)</small></div>
-            <div><small><strong>Retail:</strong> @Html.DisplayFor(modelItem => item.Retail)</small></div>
+            <div><small><strong title="List Price">List:</strong> @Html.DisplayFor(modelItem => item.List)</small></div>
+            <div><small><strong title="Retail Price">Retail:</strong> @Html.DisplayFor(modelItem => item.Retail)</small></div>
             <div><small><strong title="Available in EPUB format?">EPUB:</strong> @Html.DisplayFor(modelItem => item.EPUB)</small></div>
             <div><small><strong title="Available in PDF format?">PDF:</strong> @Html.DisplayFor(modelItem => item.PDF)</small></div>
-            
         </div>
     </div>
     <div class="row fade">
