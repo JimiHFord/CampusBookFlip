@@ -1,0 +1,62 @@
+﻿@model CampusBookFlip.WebUI.Models.RegisterModel
+@{
+    ViewBag.Title = "Register";
+}
+@using TwitterBootstrap3
+@using PoliteCaptcha
+
+<div class="container">
+<div class="row">
+    <div class="col-md-3">
+        @*<hgroup class="title">*@
+            <h1>@ViewBag.Title.</h1>
+            <h2>Create a new account.</h2>
+        @*</hgroup>*@
+    </div>
+</div></div>
+<div class="container"><div class="row">
+    <div class="col-md-3">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role="form", @class="form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            if (ViewData.ModelState[""] != null && ViewData.ModelState[""].Errors.Count() > 0)
+            { 
+                <div class="alert alert-info">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    @Html.ValidationSummary(true, "Errors: ")
+                </div>
+            }
+
+            <div class="input-group form-group">
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeHolder = "User name" })
+                @Html.ValidationMessageFor(m => m.UserName)
+            </div>
+            <div class="input-group form-group">
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeHolder = "First name" })
+                @Html.ValidationMessageFor(m => m.FirstName)
+            </div>
+            <div class="input-group form-group">
+                @Html.TextBoxFor(mbox => mbox.LastName, new { @class = "form-control", placeHolder = "Last name" })
+                @Html.ValidationMessageFor(m => m.LastName)
+            </div>
+            <div class="input-group form-group">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeHolder = "Password" })
+                @Html.ValidationMessageFor(m => m.Password)
+
+            </div>
+            <div class="input-group form-group">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeHolder = "Confirm password" })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+            </div>
+            <div class="pull-right">
+                <input class="btn btn-primary" type="submit" value="Register" />
+            </div>
+
+            @Html.SpamPreventionFields()
+        }
+    </div>
+</div></div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Html.SpamPreventionScript()
+}

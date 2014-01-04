@@ -1,0 +1,46 @@
+﻿@model CampusBookFlip.WebUI.Models.BookListViewModel
+
+@if (Model.Books.Count() == 0)
+{
+    <div class="row fade">
+        <div class="text-center">
+            <small>No Results</small>
+        </div>
+    </div>
+}
+
+@foreach (var item in Model.Books) {
+    <div class="row fade">
+        <div class="col-md-2">
+            <img src="@item.ImageLarge" class="img-thumbnail"/>
+        </div>
+        <div class="col-md-6 offset2">
+            <h4>@Html.DisplayFor(modelItem => item.Title) <small>@Html.DisplayFor(modelItem => item.PublishDate)</small></h4>
+            <div><small><strong>Pages:</strong> @Html.DisplayFor(modelItem => item.PageCount)</small></div>
+        </div>
+        <div class="col-md-4 offset8">
+            <div><small><strong>List:</strong> @Html.DisplayFor(modelItem => item.List)</small></div>
+            <div><small><strong>Retail:</strong> @Html.DisplayFor(modelItem => item.Retail)</small></div>
+            <div><small><strong title="Available in EPUB format?">EPUB:</strong> @Html.DisplayFor(modelItem => item.EPUB)</small></div>
+            <div><small><strong title="Available in PDF format?">PDF:</strong> @Html.DisplayFor(modelItem => item.PDF)</small></div>
+            
+        </div>
+    </div>
+    <div class="row fade">
+        <div class="col-md-4">
+            <strong>Publisher: </strong>@Html.DisplayFor(modelItem => item.Publisher.Name)
+        </div>
+        <div class="col-md-4 offset4">
+            <strong>ISBN-13: </strong>@Html.DisplayFor(modelItem => item.ISBN13)
+        </div>
+        <div class="col-md-4 offset8">
+            <strong>ISBN-10: </strong>@Html.DisplayFor(modelItem => item.ISBN10)
+        </div>
+    </div>  
+    <div class="row fade">
+        <div class="col-md-12">
+            <strong>Description: </strong>@Html.DisplayFor(m => item.Description)
+        </div>
+    </div>
+    <hr />
+}
