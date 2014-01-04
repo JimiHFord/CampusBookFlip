@@ -146,7 +146,14 @@ namespace CampusBookFlip.WebUI.Infrastructure
             var book_results = JsonParser.Deserialize(reader.ReadToEnd());
             List<String> authors;
             List<BookAuthor> bookAuthors;
-            if (book_results.Items == null)
+            try
+            {
+                if (book_results.Items == null)
+                {
+                    return new List<Book>();
+                }
+            }
+            catch (Exception e)
             {
                 return new List<Book>();
             }
