@@ -1,0 +1,14 @@
+﻿@model CampusBookFlip.WebUI.Models.ConfirmTokenEmail
+@{
+    Layout = null;
+}
+
+To: @Model.To
+From: @CampusBookFlip.WebUI.Infrastructure.Constants.EMAIL_NO_REPLY
+Subject: Complete Registration Process
+
+Hello @Model.FirstName,
+
+We are excited to have you join us! We promise we will never spam you, but you can always turn off email notifications if you prefer.
+
+Please visit @(new System.UriBuilder(Request.Url.AbsoluteUri) { Path = Url.Action("Account", "RegisterConfirmation", new { id = Model.ConfirmationToken }) }.ToString()) to start using your account.

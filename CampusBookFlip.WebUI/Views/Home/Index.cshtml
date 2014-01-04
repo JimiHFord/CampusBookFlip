@@ -50,6 +50,9 @@
     @Html.ValidationSummary(true)
     <div class="row">
         <div class="col-md-4">
+            @*@Html.Bootstrap().Div(
+            Html.Bootstrap().TextBoxFor(m => m.ISBN).Class("form-control").Tooltip("Use ISBN for most accurate results").Placeholder("Search text").Id("ISBN").Append(
+                Html.Bootstrap().Button().Class("btn-primary").HtmlAttributes(new { onclick = "home_search_ajax_post()" }).Text("Go!"))).Class("input-group")*@
             <div class="input-group">
                 
                 @Html.TextBoxFor(m => m.ISBN, new { @class = "form-control", placeHolder = "ISBN" })

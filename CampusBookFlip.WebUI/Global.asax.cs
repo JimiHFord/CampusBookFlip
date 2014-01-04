@@ -24,7 +24,7 @@ namespace CampusBookFlip.WebUI
         protected void Application_Start()
         {
             //Constants.SeedAdmins();
-            Bootstrap.Configure();
+            //Bootstrap.Configure();
             AreaRegistration.RegisterAllAreas();
             ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
             WebApiConfig.Register(GlobalConfiguration.Configuration);

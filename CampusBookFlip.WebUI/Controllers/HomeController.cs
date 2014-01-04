@@ -27,7 +27,6 @@ namespace CampusBookFlip.WebUI.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = slogon;
-            //Constants.FixPublishers(repo);
             return View();
         }
 
@@ -45,39 +44,20 @@ namespace CampusBookFlip.WebUI.Controllers
             return View();
         }
 
-        //ProductListViewModel model = new ProductListViewModel
-        //{
-        //    Products = repo.Product,
-        //    //.OrderBy(p => p.Id).Skip((page - 1) * PageSize).Take(PageSize),
-        //    PagingInfo = new PagingInfo
-        //    {
-        //        CurrentPage = page,
-        //        ItemsPerPage = PageSize,
-        //        TotalItems = repo.Product.Count()
-        //    }
-        //};
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Search(BookSearchTextViewModel model)
         {
-            //BookSearchTextViewModel model = JsonParser.Deserialize<BookSearchTextViewModel>(json.ToString());
-            
             ViewBag.Message = slogon;
-            //try
-            //{
-                //if (ModelState.IsValid)
-                //{
-                    List<Book> bookList = CampusBookFlip.WebUI.Infrastructure.Google.Search(model.ISBN, repo);
-                    return PartialView("~/Views/Books/AJAXSearchResultsBookList.cshtml",
-                        new CampusBookFlip.WebUI.Models.BookListViewModel { Books = bookList });
-                //}
-                //return View("~/Views/Home/Index.cshtml", model);
-            //}
-            //catch (Exception e)
-            //{
-            //    return Content(e.Message);
-            //}
+            List<Book> bookList = CampusBookFlip.WebUI.Infrastructure.Google.Search(model.ISBN, repo);
+            return PartialView("~/Views/Books/AJAXSearchResultsBookList.cshtml",
+                new CampusBookFlip.WebUI.Models.BookListViewModel { Books = bookList });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            repo.Dispose();
         }
     }
 }

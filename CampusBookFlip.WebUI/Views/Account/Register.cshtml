@@ -46,6 +46,10 @@
                 @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeHolder = "Confirm password" })
                 @Html.ValidationMessageFor(m => m.ConfirmPassword)
             </div>
+            <div class="input-group form-group">
+                @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control", placeHolder = "Email Address" })
+                @Html.ValidationMessageFor(m => m.EmailAddress)
+            </div>
             <div class="pull-right">
                 <input class="btn btn-primary" type="submit" value="Register" />
             </div>

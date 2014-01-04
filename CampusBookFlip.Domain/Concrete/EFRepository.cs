@@ -60,12 +60,16 @@ namespace CampusBookFlip.Domain.Concrete
             {
                 entry.ImageLarge = book.ImageLarge;
                 entry.ImageSmall = book.ImageSmall;
-                var authors = context.BookAuthor.Where(ba => ba.BookId == entry.Id);
-                foreach (var a in authors)
+                
+                if (book.Authors != null)
                 {
-                    context.BookAuthor.Remove(a);
+                    var authors = context.BookAuthor.Where(ba => ba.BookId == entry.Id);
+                    foreach (var a in authors)
+                    {
+                        context.BookAuthor.Remove(a);
+                    }
+                    entry.Authors = book.Authors;
                 }
-                entry.Authors = book.Authors;
                 entry.Description = book.Description;
                 entry.ISBN10 = book.ISBN10;
                 entry.ISBN13 = book.ISBN13;

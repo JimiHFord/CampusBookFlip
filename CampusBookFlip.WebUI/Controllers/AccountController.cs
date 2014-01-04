@@ -12,6 +12,7 @@ using CampusBookFlip.WebUI.Filters;
 using CampusBookFlip.WebUI.Models;
 using CampusBookFlip.Domain.Abstract;
 using PoliteCaptcha;
+using Postal;
 
 namespace CampusBookFlip.WebUI.Controllers
 {
@@ -89,14 +90,20 @@ namespace CampusBookFlip.WebUI.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new
+                    string confirmationToken = WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new
                     {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Paid = false
-                    });
-                    WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    }, requireConfirmationToken: true);
+                    var email = new CampusBookFlip.WebUI.Models.ConfirmTokenEmail
+                    {
+                        To = model.EmailAddress,
+                        FirstName = model.FirstName,
+                        ConfirmationToken = confirmationToken,
+                    };
+                    email.Send();
+                    return RedirectToAction("RegisterStepTwo", "Account");
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -106,6 +113,12 @@ namespace CampusBookFlip.WebUI.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [AllowAnonymous]
+        public ViewResult RegisterStepTwo()
+        {
+            return View();
         }
 
         //
