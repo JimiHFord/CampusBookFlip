@@ -90,6 +90,9 @@
     <Reference Include="Portable.Licensing">
       <HintPath>..\packages\Portable.Licensing.1.1.0\lib\portable-net40+sl4+wp7+win8\Portable.Licensing.dll</HintPath>
     </Reference>
+    <Reference Include="Postal">
+      <HintPath>..\packages\Postal.0.9.0\lib\net40\Postal.dll</HintPath>
+    </Reference>
     <Reference Include="Recaptcha">
       <HintPath>..\packages\recaptcha.1.0.5.0\lib\.NetFramework 4.0\Recaptcha.dll</HintPath>
     </Reference>
@@ -259,6 +262,7 @@
     <Compile Include="Infrastructure\ValidateJsonAntiForgeryToken.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\BookViewModels.cs" />
+    <Compile Include="Models\EmailHelpers.cs" />
     <Compile Include="Models\HtmlHelperModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -384,6 +388,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Books\AJAXSearchResultsBookList.cshtml" />
+    <Content Include="Views\Emails\Web.config" />
+    <Content Include="Views\Emails\_ViewStart.cshtml" />
+    <Content Include="Views\Emails\ConfirmToken.cshtml" />
+    <Content Include="Views\Account\RegisterStepTwo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

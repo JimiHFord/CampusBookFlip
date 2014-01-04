@@ -21,6 +21,9 @@ namespace CampusBookFlip.Domain.Entities
         public string LastName { get; set; }
 
         public bool Paid { get; set; }
+        //[Required]
+        [EmailAddress]
+        public string EmailAddress { get; set; }
 
         public virtual ICollection<UserCollege> Colleges { get; set; }
     }

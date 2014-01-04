@@ -20,6 +20,7 @@ namespace CampusBookFlip.WebUI.Infrastructure
         public static string ADMIN { get { return "Administrator"; } }
         public static string jimi { get { return "jford"; } }
         public static string wes { get { return "wjones"; } }
+        public static string EMAIL_NO_REPLY { get { return "no-reply@campusbookflip.com"; } }
 
         public static bool MakeGoogleRequest
         {
@@ -277,6 +278,7 @@ namespace CampusBookFlip.WebUI.Infrastructure
                                 repo.Publisher.FirstOrDefault(a => a.Name == tempPublishString) == null ? 0 : repo.Publisher.
                                 FirstOrDefault(a => a.Name == tempPublishString).Id;
                     tempBook.PublisherId = tempPublishId;
+                    tempBook.Publisher = repo.Publisher.FirstOrDefault(pub => pub.Id == tempPublishId);
                 }
                 bool is_valid_book = !string.IsNullOrEmpty(tempBook.ISBN10) && !string.IsNullOrEmpty(tempBook.ISBN13) && !string.IsNullOrEmpty(tempBook.Title)
                     && tempBook.PublisherId != 0;

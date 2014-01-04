@@ -62,6 +62,14 @@ namespace CampusBookFlip.Domain.Entities
             }
         }
 
+        public string Pages
+        {
+            get
+            {
+                return PageCount == 0 ? BookHelper.UNKNOWN : PageCount.ToString();
+            }
+        }
+
         public string Retail
         {
             get
@@ -79,7 +87,7 @@ namespace CampusBookFlip.Domain.Entities
         }
 
         [ForeignKey("PublisherId")]
-        public Publisher Publisher { get; set; }
+        public virtual Publisher Publisher { get; set; }
 
         public virtual ICollection<BookAuthor> Authors { get; set; }
 
