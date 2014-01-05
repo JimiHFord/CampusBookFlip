@@ -30,6 +30,10 @@
                     <button class="btn btn-twitter" type="submit" name="provider" value="@p.AuthenticationClient.ProviderName" title="Log in using your @p.DisplayName account"><i class="fa fa-twitter"></i> | @p.DisplayName</button>
                 @*</div>*@
             }
+            else if(p.DisplayName.ToLower().Equals("linkedin")) 
+            {
+                <button class="btn btn-linkedin" type="submit" name="provider" value="@p.AuthenticationClient.ProviderName" title="Log in using your @p.DisplayName account"><i class="fa fa-linkedin"></i> | @p.DisplayName</button>
+            }
             else 
             {
                 <button class="btn btn-info" type="submit" name="provider" value="@p.AuthenticationClient.ProviderName" title="Log in using your @p.DisplayName account">@p.DisplayName</button>

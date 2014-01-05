@@ -238,15 +238,15 @@ namespace CampusBookFlip.WebUI.Controllers
                 {
                     try
                     {
-                        string confirmationToken = WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword, requireConfirmationToken: true);
-                        CBFUser user = repo.User.FirstOrDefault(u => u.AppUserName == User.Identity.Name.ToLower());
-                        var email = new CampusBookFlip.WebUI.Models.ConfirmTokenEmail
-                        {
-                            To = user.EmailAddress,
-                            FirstName = user.FirstName,
-                            ConfirmationToken = confirmationToken,
-                        };
-                        email.Send();
+                        /*string confirmationToken = */WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword, requireConfirmationToken: false);
+                        //CBFUser user = repo.User.FirstOrDefault(u => u.AppUserName == User.Identity.Name.ToLower());
+                        //var email = new CampusBookFlip.WebUI.Models.ConfirmTokenEmail
+                        //{
+                        //    To = user.EmailAddress,
+                        //    FirstName = user.FirstName,
+                        //    ConfirmationToken = confirmationToken,
+                        //};
+                        //email.Send();
                         return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
                     }
                     catch (Exception)
@@ -282,10 +282,21 @@ namespace CampusBookFlip.WebUI.Controllers
             {
                 return RedirectToAction("ExternalLoginFailure");
             }
-
-            if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
+            string username = OAuthWebSecurity.GetUserName(result.Provider, result.ProviderUserId);
+            if (!string.IsNullOrEmpty(username))
             {
-                return RedirectToLocal(returnUrl);
+                CBFUser user = repo.User.FirstOrDefault(u => u.AppUserName.ToLower() == username.ToLower());
+                if (user.ConfirmedEmail)
+                {
+                    if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("RegisterStepTwo", "Account");
+                }
             }
 
             if (User.Identity.IsAuthenticated)

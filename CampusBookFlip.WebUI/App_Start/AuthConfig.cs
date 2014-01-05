@@ -27,6 +27,10 @@ namespace CampusBookFlip.WebUI
                 appSecret: "a83986f6208df7cce098fa50ff83d231");
 
             OAuthWebSecurity.RegisterGoogleClient();
+
+            OAuthWebSecurity.RegisterLinkedInClient(
+                consumerKey: "756lkuaxqsy6zm",
+                consumerSecret: "wek4Mt0qVBOQNklS");
         }
     }
 }
