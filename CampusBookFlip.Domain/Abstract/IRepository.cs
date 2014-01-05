@@ -43,6 +43,11 @@ namespace CampusBookFlip.Domain.Abstract
         int SaveUserBook(UserBook ub);
         UserBook DeleteUserBook(int id);
 
+        IQueryable<ChangeEmailRequest> ChangeEmailRequest { get; }
+        IQueryable<ChangeEmailRequest> XChangeEmailRequest { get; }
+        void SaveChangeEmailRequest(ChangeEmailRequest req);
+        ChangeEmailRequest DeleteChangeEmailRequest(int Id);
+        
 
     }
 }

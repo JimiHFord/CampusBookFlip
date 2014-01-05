@@ -103,6 +103,8 @@ namespace CampusBookFlip.WebUI.Controllers
                         To = model.EmailAddress,
                         FirstName = model.FirstName,
                         ConfirmationToken = confirmationToken,
+                        From = CampusBookFlip.WebUI.Infrastructure.Constants.EMAIL_NO_REPLY,
+                        Subject = CampusBookFlip.WebUI.Infrastructure.Constants.COMPLETE_REGISTRATION_PROCESS,
                     };
                     email.Send();
                     return RedirectToAction("RegisterStepTwo", "Account");
@@ -141,6 +143,79 @@ namespace CampusBookFlip.WebUI.Controllers
 
         [AllowAnonymous]
         public ActionResult ConfirmationFailure()
+        {
+            return View();
+        }
+
+        public ViewResult ChangeEmail()
+        {
+            int id = WebSecurity.CurrentUserId;
+            CBFUser user = repo.User.FirstOrDefault(u => u.Id == id);
+            return View(new ChangeEmailViewModel
+            {
+                OldEmail = user.EmailAddress
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeEmail(ChangeEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string confirmationToken = Guid.NewGuid().ToString();
+                int id = WebSecurity.CurrentUserId;
+                CBFUser currentUser = repo.User.FirstOrDefault(c => c.Id == id);
+                repo.SaveChangeEmailRequest(new ChangeEmailRequest
+                {
+                    ConfirmationToken = confirmationToken,
+                    NewEmail = model.EmailAddress,
+                    UserId = currentUser.Id
+                });
+                var email = new CampusBookFlip.WebUI.Models.NewEmailTokenEmail
+                {
+                    FirstName = currentUser.FirstName,
+                    From = CampusBookFlip.WebUI.Infrastructure.Constants.EMAIL_NO_REPLY,
+                    Subject = CampusBookFlip.WebUI.Infrastructure.Constants.CHANGE_EMAIL,
+                    To = model.EmailAddress,
+                    ConfirmationToken = confirmationToken,
+                    NewEmail = model.EmailAddress,
+                    OldEmail = currentUser.EmailAddress
+                };
+                email.Send();
+                return RedirectToAction("RegisterNewEmailStepTwo");
+            }
+            return View(model);
+        }
+
+        public ViewResult RegisterNewEmailStepTwo()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult RegisterNewEmail(string id)
+        {
+            ChangeEmailRequest request = repo.ChangeEmailRequest.FirstOrDefault(c => c.ConfirmationToken == id);
+            if (request == null)
+            {
+                return RedirectToAction("ChangeEmailFailure");
+            }
+            CBFUser user = request.User;
+            user.EmailAddress = request.NewEmail;
+            repo.SaveUser(user);
+            repo.DeleteChangeEmailRequest(request.UserId);
+            return RedirectToAction("ChangeEmailSuccess");
+        }
+
+        [AllowAnonymous]
+        public ViewResult ChangeEmailFailure()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ViewResult ChangeEmailSuccess()
         {
             return View();
         }
@@ -238,15 +313,7 @@ namespace CampusBookFlip.WebUI.Controllers
                 {
                     try
                     {
-                        /*string confirmationToken = */WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword, requireConfirmationToken: false);
-                        //CBFUser user = repo.User.FirstOrDefault(u => u.AppUserName == User.Identity.Name.ToLower());
-                        //var email = new CampusBookFlip.WebUI.Models.ConfirmTokenEmail
-                        //{
-                        //    To = user.EmailAddress,
-                        //    FirstName = user.FirstName,
-                        //    ConfirmationToken = confirmationToken,
-                        //};
-                        //email.Send();
+                        WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword, requireConfirmationToken: false);
                         return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
                     }
                     catch (Exception)
@@ -352,6 +419,8 @@ namespace CampusBookFlip.WebUI.Controllers
                         ConfirmationToken = confirmationToken,
                         FirstName = model.FirstName,
                         To = model.EmailAddress,
+                        From = CampusBookFlip.WebUI.Infrastructure.Constants.EMAIL_NO_REPLY,
+                        Subject = CampusBookFlip.WebUI.Infrastructure.Constants.COMPLETE_REGISTRATION_PROCESS,
                     };
                     email.Send();
                     return RedirectToAction("RegisterStepTwo", "Account");

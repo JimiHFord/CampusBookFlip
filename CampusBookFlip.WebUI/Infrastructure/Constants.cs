@@ -21,6 +21,8 @@ namespace CampusBookFlip.WebUI.Infrastructure
         public static string jimi { get { return "jford"; } }
         public static string wes { get { return "wjones"; } }
         public static string EMAIL_NO_REPLY { get { return "no-reply@campusbookflip.com"; } }
+        public static string COMPLETE_REGISTRATION_PROCESS { get { return "Complete Registration Process"; } }
+        public static string CHANGE_EMAIL { get { return "Change Email"; } }
 
         public static bool MakeGoogleRequest
         {
@@ -154,7 +156,7 @@ namespace CampusBookFlip.WebUI.Infrastructure
                     return new List<Book>();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new List<Book>();
             }

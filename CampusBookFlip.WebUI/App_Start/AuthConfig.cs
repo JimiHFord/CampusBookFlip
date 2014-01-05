@@ -31,6 +31,7 @@ namespace CampusBookFlip.WebUI
             OAuthWebSecurity.RegisterLinkedInClient(
                 consumerKey: "756lkuaxqsy6zm",
                 consumerSecret: "wek4Mt0qVBOQNklS");
+
         }
     }
 }

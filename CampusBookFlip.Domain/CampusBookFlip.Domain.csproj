@@ -54,6 +54,7 @@
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\BookAuthor.cs" />
     <Compile Include="Entities\CBFUser.cs" />
+    <Compile Include="Entities\ChangeEmailRequest.cs" />
     <Compile Include="Entities\College.cs" />
     <Compile Include="Entities\CollegeRequest.cs" />
     <Compile Include="Entities\Posting.cs" />
@@ -73,6 +74,10 @@
     <Compile Include="Migrations\201401052003084_OAuthEmailConfirmation.Designer.cs">
       <DependentUpon>201401052003084_OAuthEmailConfirmation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201401052224118_ChangeEmailData.cs" />
+    <Compile Include="Migrations\201401052224118_ChangeEmailData.Designer.cs">
+      <DependentUpon>201401052224118_ChangeEmailData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -89,6 +94,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201401052003084_OAuthEmailConfirmation.resx">
       <DependentUpon>201401052003084_OAuthEmailConfirmation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401052224118_ChangeEmailData.resx">
+      <DependentUpon>201401052224118_ChangeEmailData.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

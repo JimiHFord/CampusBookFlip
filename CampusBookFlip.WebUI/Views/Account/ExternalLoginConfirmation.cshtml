@@ -33,6 +33,7 @@
         @Html.TextBoxFor(mbox => mbox.EmailAddress, new { @class = "form-control", placeHolder = "Email address" })
         @Html.ValidationMessageFor(m => m.EmailAddress)
     </div>
+
     
     @Html.SpamPreventionFields()
     @Html.HiddenFor(m => m.ExternalLoginData)
