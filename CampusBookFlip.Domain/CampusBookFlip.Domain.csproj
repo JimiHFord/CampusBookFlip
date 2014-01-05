@@ -69,6 +69,10 @@
     <Compile Include="Migrations\201401042144355_AddEmailAddress.Designer.cs">
       <DependentUpon>201401042144355_AddEmailAddress.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201401052003084_OAuthEmailConfirmation.cs" />
+    <Compile Include="Migrations\201401052003084_OAuthEmailConfirmation.Designer.cs">
+      <DependentUpon>201401052003084_OAuthEmailConfirmation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -82,6 +86,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201401042144355_AddEmailAddress.resx">
       <DependentUpon>201401042144355_AddEmailAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401052003084_OAuthEmailConfirmation.resx">
+      <DependentUpon>201401052003084_OAuthEmailConfirmation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
