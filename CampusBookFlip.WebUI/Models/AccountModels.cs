@@ -27,6 +27,14 @@ namespace CampusBookFlip.WebUI.Models
     //    public string UserName { get; set; }
     //}
 
+    public class ChangeEmailViewModel
+    {
+        [Required]
+        [EmailAddress]
+        public string EmailAddress { get; set; }
+        public string OldEmail { get; set; }
+    }
+
     public class RegisterExternalLoginModel
     {
         [Required]

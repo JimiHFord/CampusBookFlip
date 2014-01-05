@@ -1,0 +1,30 @@
+﻿@model CampusBookFlip.WebUI.Models.ChangeEmailViewModel
+
+@{
+    ViewBag.Title = "ChangeEmail";
+}
+
+<h2>Change Email</h2>
+
+<p>
+    You are currently using @Html.DisplayFor(l => l.OldEmail) as your email address.
+</p>
+
+@using (Html.BeginForm("ChangeEmail", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true);
+    
+    @Html.HiddenFor(m => m.OldEmail)
+
+    <div class="input-group form-group">
+        @Html.TextBoxFor(m => m.EmailAddress, new { @class = "form-control", placeHolder = "New Email Address" })
+        @Html.ValidationMessageFor(m => m.EmailAddress)
+    </div>
+    
+    <input type="submit" class="btn btn-primary" value="Save" />
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

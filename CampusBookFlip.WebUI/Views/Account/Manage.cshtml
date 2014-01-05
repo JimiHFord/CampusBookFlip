@@ -19,7 +19,11 @@ else
 { 
     @Html.Partial("_SetPasswordPartial")
 }
-
+<hr />
+<h3>Change account data</h3>
+<p>
+    @Html.RouteLink("Change Email", new { controller = "Account", action = "ChangeEmail" }, new { @class = "btn btn-primary" })
+</p>
 <section id="externalLogins">
     @Html.Action("RemoveExternalLogins")
 

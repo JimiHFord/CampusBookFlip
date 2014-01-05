@@ -357,5 +357,53 @@ namespace CampusBookFlip.Domain.Concrete
             }
             return entry;
         }
+
+        public IQueryable<ChangeEmailRequest> ChangeEmailRequest
+        {
+            get
+            {
+                return context.ChangeEmailRequest.Include("User");
+            }
+        }
+
+        public IQueryable<ChangeEmailRequest> XChangeEmailRequest
+        {
+            get
+            {
+                return context.ChangeEmailRequest;
+            }
+        }
+
+        public void SaveChangeEmailRequest(ChangeEmailRequest req)
+        {
+            if (req == null)
+            {
+                return;
+            }
+            ChangeEmailRequest entry = context.ChangeEmailRequest.Find(req.UserId);
+            if (entry == null)
+            {
+                context.ChangeEmailRequest.Add(req);
+                context.SaveChanges();
+            }
+            else
+            {
+                entry.ConfirmationToken = req.ConfirmationToken;
+                entry.NewEmail = req.NewEmail;
+                context.SaveChanges();
+            }
+        }
+
+        public ChangeEmailRequest DeleteChangeEmailRequest(int Id)
+        {
+            ChangeEmailRequest entry = context.ChangeEmailRequest.Find(Id);
+            if (entry != null)
+            {
+                context.ChangeEmailRequest.Remove(entry);
+                context.SaveChanges();
+            }
+            return entry;
+        }
+
     }
 }

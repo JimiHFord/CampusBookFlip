@@ -25,5 +25,6 @@ namespace CampusBookFlip.Domain.Concrete
         public DbSet<Publisher> Publisher { get; set; }
         public DbSet<CBFUser> User { get; set; }
         public DbSet<UserBook> UserBook { get; set; }
+        public DbSet<ChangeEmailRequest> ChangeEmailRequest { get; set; }
     }
 }
