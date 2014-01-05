@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "ConfirmationSuccess";
+}
+
+<h2>Successfully confirmed email address!</h2>
+
+<h4>You can now start using Campus BookFlip.</h4>
+<small>Redirecting you to login page in <span id="seconds">5</span> <span id="grammar">seconds</span></small>
+
+<script type="text/javascript">
+    var targetURL = "@(new System.UriBuilder(Request.Url.AbsoluteUri) { Path = Url.Action("Login", "Account") }.ToString())";
+    var countdownfrom = parseInt($('span#seconds').html());
+    var currentsecond = countdownfrom + 1;
+    function countredirect() {
+        if (currentsecond > 1) {
+            currentsecond -= 1;
+            $('span#seconds').html(currentsecond);
+            if (currentsecond == 1) {
+                $('span#grammar').html('second');
+            }
+            else {
+                $('span#grammar').html('seconds');
+            }
+        }
+        else {
+            window.location = targetURL;
+            return
+        }
+        setTimeout("countredirect()", 1000);
+    }
+    countredirect()
+</script>

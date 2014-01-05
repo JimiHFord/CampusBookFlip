@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Register";
 }
-
+@using PoliteCaptcha
 <hgroup class="title">
     <h1>@ViewBag.Title.</h1>
     <h2>Associate your @ViewBag.ProviderDisplayName account.</h2>
@@ -29,11 +29,19 @@
         @Html.TextBoxFor(mbox => mbox.LastName, new { @class = "form-control", placeHolder = "Last name" })
         @Html.ValidationMessageFor(m => m.LastName)
     </div>
-            
+    <div class="input-group form-group">
+        @Html.TextBoxFor(mbox => mbox.EmailAddress, new { @class = "form-control", placeHolder = "Email address" })
+        @Html.ValidationMessageFor(m => m.EmailAddress)
+    </div>
+    
+    @Html.SpamPreventionFields()
     @Html.HiddenFor(m => m.ExternalLoginData)
     <input class="btn btn-primary" type="submit" value="Register" />
 }
 
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Html.SpamPreventionScript()
 }

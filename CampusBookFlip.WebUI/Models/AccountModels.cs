@@ -38,6 +38,10 @@ namespace CampusBookFlip.WebUI.Models
         [Required]
         [Display(Name="Last name")]
         public string LastName { get; set; }
+        [Required]
+        [Display(Name = "Email Address")]
+        [EmailAddress]
+        public string EmailAddress { get; set; }
         public string ExternalLoginData { get; set; }
     }
 

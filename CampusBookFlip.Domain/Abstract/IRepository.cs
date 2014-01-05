@@ -10,6 +10,7 @@ namespace CampusBookFlip.Domain.Abstract
     public interface IRepository : System.IDisposable
     {
         void DisableProxyCreation();
+        bool ConfirmAccount(string id);
 
         IQueryable<Book> Book { get; }
         IQueryable<Book> XBook { get; }

@@ -22,6 +22,22 @@ namespace CampusBookFlip.Domain.Concrete
             context.Dispose();
         }
 
+        public bool ConfirmAccount(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return false;
+            }
+            CBFUser user = context.User.FirstOrDefault(u => u.OAuthConfirmEmailToken == id);
+            if (user != null)
+            {
+                user.ConfirmedEmail = true;
+                context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
         public IQueryable<Book> Book
         {
             get
