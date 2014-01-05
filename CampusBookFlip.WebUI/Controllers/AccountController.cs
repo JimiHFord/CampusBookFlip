@@ -13,6 +13,7 @@ using CampusBookFlip.WebUI.Models;
 using CampusBookFlip.Domain.Abstract;
 using PoliteCaptcha;
 using Postal;
+using CampusBookFlip.Domain.Entities;
 
 namespace CampusBookFlip.WebUI.Controllers
 {
@@ -94,7 +95,8 @@ namespace CampusBookFlip.WebUI.Controllers
                     {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        Paid = false
+                        Paid = false,
+                        EmailAddress = model.EmailAddress
                     }, requireConfirmationToken: true);
                     var email = new CampusBookFlip.WebUI.Models.ConfirmTokenEmail
                     {
@@ -117,6 +119,28 @@ namespace CampusBookFlip.WebUI.Controllers
 
         [AllowAnonymous]
         public ViewResult RegisterStepTwo()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult RegisterConfirmation(string Id)
+        {
+            if (WebSecurity.ConfirmAccount(Id) || repo.ConfirmAccount(Id))
+            {
+                return RedirectToAction("ConfirmationSuccess");
+            }
+            return RedirectToAction("ConfirmationFailure");
+        }
+
+        [AllowAnonymous]
+        public ActionResult ConfirmationSuccess()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult ConfirmationFailure()
         {
             return View();
         }
@@ -214,7 +238,15 @@ namespace CampusBookFlip.WebUI.Controllers
                 {
                     try
                     {
-                        WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword);
+                        string confirmationToken = WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword, requireConfirmationToken: true);
+                        CBFUser user = repo.User.FirstOrDefault(u => u.AppUserName == User.Identity.Name.ToLower());
+                        var email = new CampusBookFlip.WebUI.Models.ConfirmTokenEmail
+                        {
+                            To = user.EmailAddress,
+                            FirstName = user.FirstName,
+                            ConfirmationToken = confirmationToken,
+                        };
+                        email.Send();
                         return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
                     }
                     catch (Exception)
@@ -278,6 +310,7 @@ namespace CampusBookFlip.WebUI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [ValidateSpamPrevention]
         public ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl)
         {
             string provider = null;
@@ -298,16 +331,23 @@ namespace CampusBookFlip.WebUI.Controllers
                 if (user == null)
                 {
                     // Insert name into the profile table
-                    repo.SaveUser(new Domain.Entities.CBFUser { AppUserName = model.UserName.ToLower(), FirstName = model.FirstName, LastName = model.LastName, Paid = false });
-
-                    OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
-                    OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
-
-                    return RedirectToLocal(returnUrl);
+                    string confirmationToken = Guid.NewGuid().ToString();
+                    repo.SaveUser(new Domain.Entities.CBFUser { AppUserName = model.UserName.ToLower(), FirstName = model.FirstName, LastName = model.LastName, Paid = false, EmailAddress = model.EmailAddress, OAuthConfirmEmailToken = confirmationToken, ConfirmedEmail = false });
+                    OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName.ToLower());
+                    //OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
+                    //return RedirectToLocal(returnUrl);
+                    var email = new CampusBookFlip.WebUI.Models.ConfirmTokenEmail
+                    {
+                        ConfirmationToken = confirmationToken,
+                        FirstName = model.FirstName,
+                        To = model.EmailAddress,
+                    };
+                    email.Send();
+                    return RedirectToAction("RegisterStepTwo", "Account");
                 }
                 else
                 {
-                    ModelState.AddModelError("AppUserName", "User name already exists. Please enter a different user name.");
+                    ModelState.AddModelError("", "User name already exists. Please enter a different user name.");
                 }
                 //}
             }

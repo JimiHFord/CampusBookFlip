@@ -25,6 +25,10 @@ namespace CampusBookFlip.Domain.Entities
         [EmailAddress]
         public string EmailAddress { get; set; }
 
+
+        public string OAuthConfirmEmailToken { get; set; }
+        public bool ConfirmedEmail { get; set; }
+
         public virtual ICollection<UserCollege> Colleges { get; set; }
     }
 }
