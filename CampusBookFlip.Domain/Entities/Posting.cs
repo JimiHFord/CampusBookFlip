@@ -26,7 +26,7 @@ namespace CampusBookFlip.Domain.Entities
         [ForeignKey("UserBookId")]
         public virtual UserBook Book { get; set; }
         [ForeignKey("CollegeId")]
-        public virtual College College { get; set; }
+        public virtual Campus College { get; set; }
         [ForeignKey("UserId")]
         public virtual CBFUser User { get; set; }
 

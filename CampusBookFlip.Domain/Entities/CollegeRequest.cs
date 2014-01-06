@@ -8,15 +8,14 @@ using System.Threading.Tasks;
 
 namespace CampusBookFlip.Domain.Entities
 {
-    [Table("CollegeRequest")]
-    public class CollegeRequest
+    [Table("InstitutionRequest")]
+    public class InstitutionRequest
     {
         [Key]
         public int Id { get; set; }
         public string City { get; set; }
         public string State { get; set; }
         public string Name { get; set; }
-        [MinLength(5), MaxLength(5)]
         [Display(Name="Zip Code")]
         public string ZipCode { get; set; }
         [Display(Name="Additional Notes")]
