@@ -32,16 +32,16 @@ namespace CampusBookFlip.Domain.Entities
         public string PublishDate { get; set; }
         public string ImageSmall { get; set; }
         public string ImageLarge { get; set; }
-        public int PageCount { get; set; }
+        public int? PageCount { get; set; }
 
 
-        public decimal ListPrice { get; set; }
+        public decimal? ListPrice { get; set; }
         public string CurrencyCodeLP { get; set; }
-        public decimal RetailPrice { get; set; }
+        public decimal? RetailPrice { get; set; }
         public string CurrencyCodeRP { get; set; }
 
-        public bool AvailableAsEPUB { get; set; }
-        public bool AvailableAsPDF { get; set; }
+        public bool? AvailableAsEPUB { get; set; }
+        public bool? AvailableAsPDF { get; set; }
 
         public string EPUB { get { return AvailableAsEPUB == null ? BookHelper.UNKNOWN : (bool)AvailableAsEPUB ? BookHelper.YES : BookHelper.NO; } }
         public string PDF { get { return AvailableAsPDF == null ? BookHelper.UNKNOWN : (bool)AvailableAsPDF ? BookHelper.YES : BookHelper.NO; } }
@@ -50,11 +50,11 @@ namespace CampusBookFlip.Domain.Entities
         {
             get
             {
-                if (ListPrice != 0 && CurrencyCodeLP == null)
+                if (ListPrice != null && CurrencyCodeLP == null)
                 {
                     return string.Format("{0}", decimal.Round((decimal)ListPrice, 2));
                 }
-                if (ListPrice != 0 && CurrencyCodeLP != null)
+                if (ListPrice != null && CurrencyCodeLP != null)
                 {
                     return string.Format("{0} {1}", CurrencyCodeLP.ToString().Equals("USD") ? "$" : CurrencyCodeLP.ToString(), decimal.Round((decimal)ListPrice, 2));
                 }
@@ -66,7 +66,7 @@ namespace CampusBookFlip.Domain.Entities
         {
             get
             {
-                return PageCount == 0 ? BookHelper.UNKNOWN : PageCount.ToString();
+                return PageCount == null ? BookHelper.UNKNOWN : PageCount.ToString();
             }
         }
 
@@ -74,11 +74,11 @@ namespace CampusBookFlip.Domain.Entities
         {
             get
             {
-                if (RetailPrice != 0 && CurrencyCodeRP == null)
+                if (RetailPrice != null && CurrencyCodeRP == null)
                 {
                     return string.Format("{0}", decimal.Round((decimal)RetailPrice, 2));
                 }
-                if (ListPrice != 0 && CurrencyCodeRP != null)
+                if (ListPrice != null && CurrencyCodeRP != null)
                 {
                     return string.Format("{0} {1}", CurrencyCodeRP.ToString().Equals("USD") ? "$" : CurrencyCodeRP.ToString(), decimal.Round((decimal)RetailPrice, 2));
                 }
