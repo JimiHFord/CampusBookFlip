@@ -73,6 +73,9 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="LowercaseDashedRouting">
+      <HintPath>..\packages\LowercaseDashedRoute.1.0.14\lib\LowercaseDashedRouting.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.165\lib\net45\Microsoft.Threading.Tasks.dll</HintPath>
@@ -252,6 +255,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ParticipatingCollegesController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -404,9 +408,11 @@
     <Content Include="Views\Account\RegisterNewEmailStepTwo.cshtml" />
     <Content Include="Views\Account\ChangeEmailSuccess.cshtml" />
     <Content Include="Views\Account\ChangeEmailFailure.cshtml" />
+    <Content Include="Views\ParticipatingColleges\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

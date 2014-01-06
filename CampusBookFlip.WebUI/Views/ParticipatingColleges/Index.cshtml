@@ -1,0 +1,27 @@
+﻿@model IEnumerable<CampusBookFlip.Domain.Entities.Institution>
+
+@{
+    ViewBag.Title = "Participating Colleges";
+}
+
+<h2>Participating Colleges</h2>
+<hr />
+@foreach (var inst in Model)
+{
+    <div>
+        <strong>@Html.LabelFor(m => inst.InstitutionId):</strong> @Html.DisplayFor(m => inst.InstitutionId)
+    </div>
+    <div>
+        <strong>@Html.LabelFor(m => inst.Name):</strong> @Html.DisplayFor(m => inst.Name)
+    </div>
+    <div>
+        <strong>@Html.LabelFor(m => inst.WebAddress):</strong> <a href="http://@Html.DisplayFor(m =>inst.WebAddress)">@Html.DisplayFor(m => inst.WebAddress)</a>
+    </div>    
+    <ul>
+        @foreach (var camp in inst.CampusList)
+        {
+            <li>@Html.DisplayFor(m => camp.Name)</li>
+        }
+    </ul>
+    <hr />
+}

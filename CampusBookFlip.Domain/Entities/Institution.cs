@@ -15,6 +15,7 @@ namespace CampusBookFlip.Domain.Entities
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name="Institution Id")]
         public int InstitutionId { get; set; }
         [Required]
         public string Name { get; set; }
@@ -23,10 +24,15 @@ namespace CampusBookFlip.Domain.Entities
         public string State { get; set; }
         public string Zip { get; set; }
         public string Phone { get; set; }
+        [Display(Name="Website")]
         public string WebAddress { get; set; }
         public bool Activated { get; set; }
         public DateTime? DateActivated { get; set; }
         public virtual ICollection<Campus> CampusList { get; set; }
+        public ICollection<Campus> ActiveCampusList() 
+        { 
+            return CampusList == null ? new List<Campus>() : CampusList.Where(c => c.Activated).ToList(); 
+        }
     }
 
     [Table("Campus")]
