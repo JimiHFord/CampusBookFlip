@@ -97,6 +97,10 @@
     <Compile Include="Migrations\201401060524387_removedateactivated.Designer.cs">
       <DependentUpon>201401060524387_removedateactivated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201401060615578_fixcampuslist.cs" />
+    <Compile Include="Migrations\201401060615578_fixcampuslist.Designer.cs">
+      <DependentUpon>201401060615578_fixcampuslist.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -128,6 +132,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201401060524387_removedateactivated.resx">
       <DependentUpon>201401060524387_removedateactivated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401060615578_fixcampuslist.resx">
+      <DependentUpon>201401060615578_fixcampuslist.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
