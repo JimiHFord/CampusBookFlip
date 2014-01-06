@@ -405,5 +405,87 @@ namespace CampusBookFlip.Domain.Concrete
             return entry;
         }
 
+        public IQueryable<Institution> Institution { get { return context.Institution.Include("CampusList"); } }
+        public IQueryable<Institution> XInstitution { get { return context.Institution; } }
+        public int SaveInstitution(Institution inst)
+        {
+            if (inst == null) { return 0; }
+            int pk = 0;
+            Institution entry = context.Institution.Find(inst.Id);
+            if (entry == null)
+            {
+                entry = context.Institution.FirstOrDefault(i => i.InstitutionId == inst.InstitutionId);
+            }
+            if (entry == null)
+            {
+                context.Institution.Add(inst);
+                context.SaveChanges();
+                pk = inst.Id;
+            }
+            else
+            {
+                entry.InstitutionId = inst.InstitutionId;
+                entry.Name = inst.Name;
+                entry.Phone = inst.Phone;
+                entry.Zip = inst.Zip;
+                entry.State = inst.State;
+                entry.WebAddress = inst.WebAddress;
+                entry.City = inst.City;
+                entry.Activated = inst.Activated;
+                entry.Address = inst.Address;
+                context.SaveChanges();
+                pk = entry.Id;
+            }
+            return pk;
+        }
+        public Institution DeleteInstitution(int id)
+        {
+            Institution entry = context.Institution.Find(id);
+            if (entry != null)
+            {
+                context.Institution.Remove(entry);
+                context.SaveChanges();
+            }
+            return entry;
+        }
+
+        public IQueryable<Campus> Campus { get { return context.Campus.Include("Institution"); } }
+        public IQueryable<Campus> XCampus { get { return context.Campus; } }
+        public int SaveCampus(Campus campus)
+        {
+            if (campus == null) { return 0; }
+            int pk = 0;
+            Campus entry = context.Campus.Find(campus.Id);
+            if (entry == null)
+            {
+                context.Campus.Add(campus);
+                context.SaveChanges();
+                pk = campus.Id;
+            }
+            else
+            {
+                entry.Activated = campus.Activated;
+                entry.Address = campus.Address;
+                entry.City = campus.City;
+                entry.InstitutionId = campus.InstitutionId;
+                entry.Name = campus.Name;
+                entry.State = campus.State;
+                entry.ZipCode = campus.ZipCode;
+                context.SaveChanges();
+                pk = entry.Id;
+            }
+            return pk;
+        }
+        public Campus DeleteCampus(int id)
+        {
+            Campus entry = context.Campus.Find(id);
+            if (entry != null)
+            {
+                context.Campus.Remove(entry);
+                context.SaveChanges();
+            }
+            return entry;
+        }
+
     }
 }

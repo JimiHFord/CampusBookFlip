@@ -47,7 +47,16 @@ namespace CampusBookFlip.Domain.Abstract
         IQueryable<ChangeEmailRequest> XChangeEmailRequest { get; }
         void SaveChangeEmailRequest(ChangeEmailRequest req);
         ChangeEmailRequest DeleteChangeEmailRequest(int Id);
-        
+
+        IQueryable<Institution> Institution { get; }
+        IQueryable<Institution> XInstitution { get; }
+        int SaveInstitution(Institution inst);
+        Institution DeleteInstitution(int id);
+
+        IQueryable<Campus> Campus { get; }
+        IQueryable<Campus> XCampus { get; }
+        int SaveCampus(Campus campus);
+        Campus DeleteCampus(int id);
 
     }
 }

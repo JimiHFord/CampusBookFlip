@@ -28,6 +28,6 @@ namespace CampusBookFlip.Domain.Entities
         public string OAuthConfirmEmailToken { get; set; }
         public bool ConfirmedEmail { get; set; }
 
-        public virtual ICollection<UserCollege> Colleges { get; set; }
+        public virtual ICollection<UserInstitution> Colleges { get; set; }
     }
 }

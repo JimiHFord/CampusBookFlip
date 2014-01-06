@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace CampusBookFlip.Domain.Entities
 {
-    [Table("UserCollege")]
-    public class UserCollege
+    [Table("UserInstitution")]
+    public class UserInstitution
     {
         [Key, Column(Order = 0)]
         public int UserId { get; set; }
         [Key, Column(Order = 1)]
-        public int CollegeId { get; set; }
+        public int InstitutionId { get; set; }
 
         [ForeignKey("UserId")]
         public virtual CBFUser User { get; set; }
-        [ForeignKey("CollegeId")]
-        public virtual College College { get; set; }
+        [ForeignKey("InstitutionId")]
+        public virtual Institution Institution { get; set; }
     }
 }

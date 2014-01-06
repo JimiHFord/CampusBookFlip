@@ -550,5 +550,11 @@ namespace CampusBookFlip.WebUI.Controllers
             }
         }
         #endregion
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            repo.Dispose();
+        }
     }
 }

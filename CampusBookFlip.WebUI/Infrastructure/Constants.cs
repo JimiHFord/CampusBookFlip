@@ -1,5 +1,6 @@
 ﻿using CampusBookFlip.Domain.Abstract;
 using CampusBookFlip.Domain.Entities;
+using FileHelpers;
 using Json;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Security;
+using System.Web.UI;
 using WebMatrix.WebData;
 
 namespace CampusBookFlip.WebUI.Infrastructure
@@ -42,6 +44,78 @@ namespace CampusBookFlip.WebUI.Infrastructure
                 if (val == null) { val = ""; }
                 return val.ToLower().Equals("true");
             }
+        }
+
+        public static string InstitutionFile
+        {
+            get
+            {
+                var val = WebConfigurationManager.AppSettings["InstitutionFile"];
+                if (val == null) { val = ""; }
+                return val;
+            }
+        }
+
+        public static string CampusFile
+        {
+            get
+            {
+                var val = WebConfigurationManager.AppSettings["CampusFile"];
+                if (val == null) { val = ""; }
+                return val;
+            }
+        }
+
+        public static void UpdateCollegeData(IRepository repo = null)
+        {
+            if (repo == null) { repo = new CampusBookFlip.Domain.Concrete.EFRepository(); }
+            string campus_path = VirtualPathUtility.ToAbsolute(CampusFile);
+            string institution_path = VirtualPathUtility.ToAbsolute(InstitutionFile);
+            FileHelperEngine institution_engine = new FileHelperEngine(typeof(CampusBookFlip.Domain.Entities.InstitutionFile));
+            FileHelperEngine campus_engine = new FileHelperEngine(typeof(CampusBookFlip.Domain.Entities.CampusFile));
+            IEnumerable<CampusBookFlip.Domain.Entities.CampusFile> campusList = campus_engine.ReadFile(campus_path) as IEnumerable<CampusBookFlip.Domain.Entities.CampusFile>;
+            //IEnumerable<CampusBookFlip.Domain.Entities.InstitutionFile> institutionList = institution_engine.ReadFile(institution_path) as IEnumerable<CampusBookFlip.Domain.Entities.InstitutionFile>;
+            ICollection<int> visited_institutions = new List<int>();
+            ICollection<Pair> visited_campus = new List<Pair>();
+            //foreach (var i in institutionList)
+            //{
+            //    if (!visited_institutions.Contains(i.Id))
+            //    {
+            //        visited_institutions.Add(i.Id);
+            //        repo.SaveInstitution(new Institution
+            //        {
+            //            Address = i.Address.Replace("\"", "").Replace("\\", ""),
+            //            Activated = false,
+            //            WebAddress = i.WebAddress.Replace("\"", "").Replace("\\", ""),
+            //            Zip = i.Zip.Replace("\"", "").Replace("\\", ""),
+            //            State = i.State.Replace("\"", "").Replace("\\", ""),
+            //            Phone = i.Phone.Replace("\"", "").Replace("\\", ""),
+            //            Name = i.Name.Replace("\"", "").Replace("\\", ""),
+            //            InstitutionId = i.Id,
+            //            City = i.City.Replace("\"", "").Replace("\\", ""),
+            //        });
+            //    }
+            //}
+
+            foreach (var c in campusList)
+            {
+                if (!visited_campus.Contains(new Pair(c.InstitutionId, c.Name)))
+                {
+                    visited_campus.Add(new Pair(c.InstitutionId, c.Name));
+                    int inst = repo.XInstitution.FirstOrDefault(i => i.InstitutionId == c.InstitutionId).Id;
+                    repo.SaveCampus(new Campus
+                    {
+                        Activated = false,
+                        Address = c.Address.Replace("\"", "").Replace("\\", ""),
+                        City = c.City.Replace("\"", "").Replace("\\", ""),
+                        ZipCode = c.ZipCode.Replace("\"", "").Replace("\\", ""),
+                        Name = c.Name.Replace("\"", "").Replace("\\", ""),
+                        State = c.State.Replace("\"", "").Replace("\\", ""),
+                        InstitutionId = inst,
+                    });
+                }
+            }
+
         }
 
         public static void FixPublishers(IRepository repo)

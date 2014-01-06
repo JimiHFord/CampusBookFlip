@@ -37,6 +37,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FileHelpers">
+      <HintPath>..\packages\FileHelpers\FileHelpers.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -55,8 +58,8 @@
     <Compile Include="Entities\BookAuthor.cs" />
     <Compile Include="Entities\CBFUser.cs" />
     <Compile Include="Entities\ChangeEmailRequest.cs" />
-    <Compile Include="Entities\College.cs" />
     <Compile Include="Entities\CollegeRequest.cs" />
+    <Compile Include="Entities\Institution.cs" />
     <Compile Include="Entities\Posting.cs" />
     <Compile Include="Entities\Publisher.cs" />
     <Compile Include="Entities\Request.cs" />
@@ -78,6 +81,22 @@
     <Compile Include="Migrations\201401052224118_ChangeEmailData.Designer.cs">
       <DependentUpon>201401052224118_ChangeEmailData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201401052326223_CollegeData.cs" />
+    <Compile Include="Migrations\201401052326223_CollegeData.Designer.cs">
+      <DependentUpon>201401052326223_CollegeData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201401060114232_CollegeDataAgain.cs" />
+    <Compile Include="Migrations\201401060114232_CollegeDataAgain.Designer.cs">
+      <DependentUpon>201401060114232_CollegeDataAgain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201401060522512_DateActivatedInstitutionCampus.cs" />
+    <Compile Include="Migrations\201401060522512_DateActivatedInstitutionCampus.Designer.cs">
+      <DependentUpon>201401060522512_DateActivatedInstitutionCampus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201401060524387_removedateactivated.cs" />
+    <Compile Include="Migrations\201401060524387_removedateactivated.Designer.cs">
+      <DependentUpon>201401060524387_removedateactivated.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -97,6 +116,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201401052224118_ChangeEmailData.resx">
       <DependentUpon>201401052224118_ChangeEmailData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401052326223_CollegeData.resx">
+      <DependentUpon>201401052326223_CollegeData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401060114232_CollegeDataAgain.resx">
+      <DependentUpon>201401060114232_CollegeDataAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401060522512_DateActivatedInstitutionCampus.resx">
+      <DependentUpon>201401060522512_DateActivatedInstitutionCampus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401060524387_removedateactivated.resx">
+      <DependentUpon>201401060524387_removedateactivated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
