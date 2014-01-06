@@ -101,6 +101,14 @@
     <Compile Include="Migrations\201401060615578_fixcampuslist.Designer.cs">
       <DependentUpon>201401060615578_fixcampuslist.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201401061333077_NullableBookValues.cs" />
+    <Compile Include="Migrations\201401061333077_NullableBookValues.Designer.cs">
+      <DependentUpon>201401061333077_NullableBookValues.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201401061337030_NullablePageCount.cs" />
+    <Compile Include="Migrations\201401061337030_NullablePageCount.Designer.cs">
+      <DependentUpon>201401061337030_NullablePageCount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -135,6 +143,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201401060615578_fixcampuslist.resx">
       <DependentUpon>201401060615578_fixcampuslist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401061333077_NullableBookValues.resx">
+      <DependentUpon>201401061333077_NullableBookValues.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401061337030_NullablePageCount.resx">
+      <DependentUpon>201401061337030_NullablePageCount.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
