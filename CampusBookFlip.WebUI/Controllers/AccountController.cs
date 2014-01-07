@@ -86,6 +86,10 @@ namespace CampusBookFlip.WebUI.Controllers
         [ValidateSpamPrevention]
         public ActionResult Register(RegisterModel model)
         {
+            if (repo.User.Where(u => u.EmailAddress.ToLower() == model.EmailAddress.ToLower()).Count() > 0)
+            {
+                ModelState.AddModelError("", "This email is already registered with another account.");
+            }
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
@@ -147,6 +151,12 @@ namespace CampusBookFlip.WebUI.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public ViewResult ForgotPassword()
+        {
+            return View();
+        }
+
         public ViewResult ChangeEmail()
         {
             int id = WebSecurity.CurrentUserId;
@@ -161,6 +171,10 @@ namespace CampusBookFlip.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangeEmail(ChangeEmailViewModel model)
         {
+            if (repo.User.Where(u => u.EmailAddress.ToLower() == model.EmailAddress.ToLower()).Count() > 0)
+            {
+                ModelState.AddModelError("", "This email is already registered with another account.");
+            }
             if (ModelState.IsValid)
             {
                 string confirmationToken = Guid.NewGuid().ToString();

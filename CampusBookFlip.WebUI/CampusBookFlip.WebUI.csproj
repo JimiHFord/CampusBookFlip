@@ -269,6 +269,7 @@
     <Compile Include="Infrastructure\ValidateJsonAntiForgeryToken.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\BookViewModels.cs" />
+    <Compile Include="Models\CollegeViewModels.cs" />
     <Compile Include="Models\EmailHelpers.cs" />
     <Compile Include="Models\HtmlHelperModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
