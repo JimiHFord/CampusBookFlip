@@ -66,6 +66,22 @@ namespace CampusBookFlip.WebUI.Infrastructure
             }
         }
 
+        public static int ParticipatingCollegesItemsPerPage
+        {
+            get
+            {
+                int def = 25;
+                string val = WebConfigurationManager.AppSettings["ParticipatingCollegesItemsPerPage"];
+                if (val == null)
+                {
+                    val = def.ToString();
+                }
+                try { def = int.Parse(val); }
+                catch { }
+                return def <= 0 ? 25 : def;
+            }
+        }
+
         public static void UpdateCollegeData(IRepository repo = null)
         {
             if (repo == null) { repo = new CampusBookFlip.Domain.Concrete.EFRepository(); }
@@ -74,28 +90,28 @@ namespace CampusBookFlip.WebUI.Infrastructure
             FileHelperEngine institution_engine = new FileHelperEngine(typeof(CampusBookFlip.Domain.Entities.InstitutionFile));
             FileHelperEngine campus_engine = new FileHelperEngine(typeof(CampusBookFlip.Domain.Entities.CampusFile));
             IEnumerable<CampusBookFlip.Domain.Entities.CampusFile> campusList = campus_engine.ReadFile(campus_path) as IEnumerable<CampusBookFlip.Domain.Entities.CampusFile>;
-            //IEnumerable<CampusBookFlip.Domain.Entities.InstitutionFile> institutionList = institution_engine.ReadFile(institution_path) as IEnumerable<CampusBookFlip.Domain.Entities.InstitutionFile>;
+            IEnumerable<CampusBookFlip.Domain.Entities.InstitutionFile> institutionList = institution_engine.ReadFile(institution_path) as IEnumerable<CampusBookFlip.Domain.Entities.InstitutionFile>;
             ICollection<int> visited_institutions = new List<int>();
             ICollection<Pair> visited_campus = new List<Pair>();
-            //foreach (var i in institutionList)
-            //{
-            //    if (!visited_institutions.Contains(i.Id))
-            //    {
-            //        visited_institutions.Add(i.Id);
-            //        repo.SaveInstitution(new Institution
-            //        {
-            //            Address = i.Address.Replace("\"", "").Replace("\\", ""),
-            //            Activated = false,
-            //            WebAddress = i.WebAddress.Replace("\"", "").Replace("\\", ""),
-            //            Zip = i.Zip.Replace("\"", "").Replace("\\", ""),
-            //            State = i.State.Replace("\"", "").Replace("\\", ""),
-            //            Phone = i.Phone.Replace("\"", "").Replace("\\", ""),
-            //            Name = i.Name.Replace("\"", "").Replace("\\", ""),
-            //            InstitutionId = i.Id,
-            //            City = i.City.Replace("\"", "").Replace("\\", ""),
-            //        });
-            //    }
-            //}
+            foreach (var i in institutionList)
+            {
+                if (!visited_institutions.Contains(i.Id))
+                {
+                    visited_institutions.Add(i.Id);
+                    repo.SaveInstitution(new Institution
+                    {
+                        Address = i.Address.Replace("\"", "").Replace("\\", ""),
+                        Activated = false,
+                        WebAddress = i.WebAddress.Replace("\"", "").Replace("\\", ""),
+                        Zip = i.Zip.Replace("\"", "").Replace("\\", ""),
+                        State = i.State.Replace("\"", "").Replace("\\", ""),
+                        Phone = i.Phone.Replace("\"", "").Replace("\\", ""),
+                        Name = i.Name.Replace("\"", "").Replace("\\", ""),
+                        InstitutionId = i.Id,
+                        City = i.City.Replace("\"", "").Replace("\\", ""),
+                    });
+                }
+            }
 
             foreach (var c in campusList)
             {

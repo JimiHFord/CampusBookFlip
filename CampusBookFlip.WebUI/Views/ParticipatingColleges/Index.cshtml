@@ -1,12 +1,13 @@
-﻿@model IEnumerable<CampusBookFlip.Domain.Entities.Institution>
+﻿@model CampusBookFlip.WebUI.Models.CollegeListViewModel
 
 @{
     ViewBag.Title = "Participating Colleges";
 }
 
 <h2>Participating Colleges</h2>
+@Html.BootstrapPageLinks(Model.PagingInfo, x => Url.Action("Index", "ParticipatingColleges", new { page = x }))
 <hr />
-@foreach (var inst in Model)
+@foreach (var inst in Model.Institutions)
 {
     <div>
         <strong>@Html.LabelFor(m => inst.InstitutionId):</strong> @Html.DisplayFor(m => inst.InstitutionId)
@@ -25,3 +26,5 @@
     </ul>
     <hr />
 }
+
+@Html.BootstrapPageLinks(Model.PagingInfo, x => Url.Action("Index", "ParticipatingColleges", new { page = x }))

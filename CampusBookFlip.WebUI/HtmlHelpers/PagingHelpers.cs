@@ -10,22 +10,100 @@ namespace CampusBookFlip.WebUI.HtmlHelpers
 {
     public static class PagingHelpers
     {
-        public static MvcHtmlString PageLinks(this HtmlHelper html, 
+        public static string LeftArrowGlyph { get { return "&laquo;"; } }
+        public static string RightArrowGlyph { get { return "&raquo;"; } }
+        public static MvcHtmlString BootstrapPageLinks(this HtmlHelper html, 
             PagingInfo pagingInfo, Func<int, string> pageUrl)
         {
             StringBuilder result = new StringBuilder();
-            for (int i = 1; i <= pagingInfo.TotalPages; i++)
+            TagBuilder ulTag = new TagBuilder("ul");
+            ulTag.AddCssClass("pagination");
+            for (int i = 0; i <= pagingInfo.TotalPages + 1; i++)
             {
-                TagBuilder tag = new TagBuilder("a"); //construct an <a> tag
-                tag.MergeAttribute("href", pageUrl(i));
-                tag.InnerHtml = i.ToString();
-                if (i == pagingInfo.CurrentPage)
+                TagBuilder aTag = new TagBuilder("a");
+                TagBuilder liTag = new TagBuilder("li");
+                if (i <= 0)
                 {
-                    tag.AddCssClass("selected");
+                    if (pagingInfo.CurrentPage <= 1 || pagingInfo.CurrentPage > pagingInfo.TotalPages) //or greater than total pages
+
+                    {
+
+                        liTag.AddCssClass("disabled");
+                        aTag.MergeAttribute("href", "#");
+                    }
+                    else
+                    {
+                        aTag.MergeAttribute("href", pageUrl(pagingInfo.CurrentPage - 1));
+                    }
+                    aTag.InnerHtml = LeftArrowGlyph;
+                    liTag.InnerHtml = aTag.ToString();
                 }
-                result.Append(tag.ToString());
+                else if (i == pagingInfo.TotalPages + 1)
+                {
+                    if (pagingInfo.CurrentPage >= pagingInfo.TotalPages)
+                    {
+                        liTag.AddCssClass("disabled");
+                        aTag.MergeAttribute("href", "#");
+                    }
+                    else
+                    {
+                        aTag.MergeAttribute("href", pageUrl(pagingInfo.CurrentPage + 1));
+                    }
+                    aTag.InnerHtml = RightArrowGlyph;
+                    liTag.InnerHtml = aTag.ToString();
+                }
+                else
+                {
+                    aTag.MergeAttribute("href", pageUrl(i));
+                    aTag.InnerHtml = i.ToString();
+                    if (i == pagingInfo.CurrentPage)
+                    {
+                        liTag.AddCssClass("active");
+                    }
+                    liTag.InnerHtml = aTag.ToString();
+                }
+                result.Append(liTag.ToString());
             }
-            return MvcHtmlString.Create(result.ToString());
+            ulTag.InnerHtml = result.ToString();
+            return MvcHtmlString.Create(ulTag.ToString());
+        }
+
+        //<ol class="breadcrumb">
+        //    <li><a href="#">Home</a></li>
+        //    <li><a href="#">Library</a></li>
+        //    <li class="active">Data</li>
+        //</ol>
+
+        public static MvcHtmlString BootstrapBreadcrumbs(this HtmlHelper htmlHelper, string[] labels, string[] paths = null)
+        {
+            if (labels == null) throw new ArgumentNullException("labels can not be null");
+            int path_count = paths == null ? 0 : paths.Count();
+            if (path_count != labels.Count() -1) throw new ArgumentException("labels.Count() must be one more than paths.Count()");
+            TagBuilder ol = new TagBuilder("ol");
+            ol.AddCssClass("breadcrumb");
+            StringBuilder result = new StringBuilder();
+            TagBuilder a, li;
+            for (int i = 0; i < labels.Count(); i++)
+            {
+                a = new TagBuilder("a");
+                li = new TagBuilder("li");
+                
+                //this is the current / active path
+                if (i == labels.Count() - 1)
+                {
+                    li.AddCssClass("active");
+                    li.InnerHtml = labels[i];
+                }
+                else
+                {
+                    a.MergeAttribute("href", paths[i]);
+                    a.InnerHtml = labels[i];
+                    li.InnerHtml = a.ToString();
+                }
+                result.Append(li.ToString());
+            }
+            ol.InnerHtml = result.ToString();
+            return MvcHtmlString.Create(ol.ToString());
         }
     }
 }

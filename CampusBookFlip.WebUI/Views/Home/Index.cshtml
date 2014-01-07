@@ -73,6 +73,8 @@
     </div>
 }
 
+@Html.BootstrapBreadcrumbs(new string[] {"Home", "Here", "Wes", "Bread-Crumbs", "Horray!!!"}, new string[] {@Url.Action("Index", "Home"), @Url.Action("Index", "Home"), @Url.Action("Index", "Home"), @Url.Action("Index", "Home")})
+
 @Html.BootstrapDefault("book-partial-modal", "myModalLabel", "Search Results", "modal-body", "book-partial-modal-primary-button", "OK")
 
 @section Scripts {
