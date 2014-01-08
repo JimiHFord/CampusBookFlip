@@ -1,4 +1,5 @@
-﻿using FileHelpers;
+﻿using CampusBookFlip.Domain.Abstract;
+using FileHelpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +12,7 @@ namespace CampusBookFlip.Domain.Entities
 {
     //Institution_ID	Institution_Name	Institution_Address	Institution_City	Institution_State	Institution_Zip	Institution_Phone	Institution_OPEID	Institution_IPEDS_UnitID	Institution_Web_Address	
     [Table("Institution")]
-    public class Institution
+    public class Institution : Identifyable
     {
         [Key]
         public int Id { get; set; }

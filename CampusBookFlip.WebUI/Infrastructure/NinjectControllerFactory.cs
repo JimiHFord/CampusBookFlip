@@ -9,6 +9,7 @@ using CampusBookFlip.Domain.Concrete;
 using CampusBookFlip.Domain.Abstract;
 using CampusBookFlip.WebUI.Infrastructure;
 using System.Web.Http;
+using Postal;
 
 namespace CampusBookFlip.WebUI.Infrastructure
 {
@@ -31,6 +32,7 @@ namespace CampusBookFlip.WebUI.Infrastructure
         private void AddBindings()
         {
             ninjectKernel.Bind<IRepository>().To<EFRepository>();
+            ninjectKernel.Bind<IEmailService>().To<EmailService>();
         }
 
         private void RegisterAPI()

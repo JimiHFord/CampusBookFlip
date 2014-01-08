@@ -22,10 +22,12 @@ namespace CampusBookFlip.WebUI.Controllers
     public class AccountController : Controller
     {
         private IRepository repo;
+        private IEmailService eservice;
 
-        public AccountController(IRepository repo)
+        public AccountController(IRepository repo, IEmailService eservice)
         {
             this.repo = repo;
+            this.eservice = eservice;
         }
 
         //
@@ -110,7 +112,7 @@ namespace CampusBookFlip.WebUI.Controllers
                         From = CampusBookFlip.WebUI.Infrastructure.Constants.EMAIL_NO_REPLY,
                         Subject = CampusBookFlip.WebUI.Infrastructure.Constants.COMPLETE_REGISTRATION_PROCESS,
                     };
-                    email.Send();
+                    eservice.Send(email);
                     return RedirectToAction("RegisterStepTwo", "Account");
                 }
                 catch (MembershipCreateUserException e)
@@ -184,7 +186,7 @@ namespace CampusBookFlip.WebUI.Controllers
                 {
                     ConfirmationToken = confirmationToken,
                     NewEmail = model.EmailAddress,
-                    UserId = currentUser.Id
+                    Id = currentUser.Id
                 });
                 var email = new CampusBookFlip.WebUI.Models.NewEmailTokenEmail
                 {
@@ -196,7 +198,8 @@ namespace CampusBookFlip.WebUI.Controllers
                     NewEmail = model.EmailAddress,
                     OldEmail = currentUser.EmailAddress
                 };
-                email.Send();
+                
+                eservice.Send(email);
                 return RedirectToAction("RegisterNewEmailStepTwo");
             }
             return View(model);
@@ -218,7 +221,7 @@ namespace CampusBookFlip.WebUI.Controllers
             CBFUser user = request.User;
             user.EmailAddress = request.NewEmail;
             repo.SaveUser(user);
-            repo.DeleteChangeEmailRequest(request.UserId);
+            repo.DeleteChangeEmailRequest(request.Id);
             return RedirectToAction("ChangeEmailSuccess");
         }
 
@@ -436,7 +439,7 @@ namespace CampusBookFlip.WebUI.Controllers
                         From = CampusBookFlip.WebUI.Infrastructure.Constants.EMAIL_NO_REPLY,
                         Subject = CampusBookFlip.WebUI.Infrastructure.Constants.COMPLETE_REGISTRATION_PROCESS,
                     };
-                    email.Send();
+                    eservice.Send(email);
                     return RedirectToAction("RegisterStepTwo", "Account");
                 }
                 else

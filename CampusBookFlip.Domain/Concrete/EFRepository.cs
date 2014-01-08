@@ -380,7 +380,7 @@ namespace CampusBookFlip.Domain.Concrete
             {
                 return;
             }
-            ChangeEmailRequest entry = context.ChangeEmailRequest.Find(req.UserId);
+            ChangeEmailRequest entry = context.ChangeEmailRequest.Find(req.Id);
             if (entry == null)
             {
                 context.ChangeEmailRequest.Add(req);
