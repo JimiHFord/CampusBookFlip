@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using System.Threading.Tasks;
+using CampusBookFlip.Domain.Abstract;
 
 namespace CampusBookFlip.Domain.Entities
 {
@@ -16,7 +17,7 @@ namespace CampusBookFlip.Domain.Entities
     }
 
     [Table("Book")]
-    public class Book
+    public class Book : Identifyable
     {
         
         [Key]
@@ -96,6 +97,16 @@ namespace CampusBookFlip.Domain.Entities
             get
             {
                 return Authors != null && Authors.Count() > 0;
+            }
+        }
+
+        public string AuthorsLabel
+        {   
+            get
+            {
+                string plural = "Authors", singular = "Author";
+                return !HasAuthors ? plural :
+                    Authors.Count() > 1 ? plural : singular;
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CampusBookFlip.Domain.Abstract;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,15 +10,15 @@ using System.Threading.Tasks;
 namespace CampusBookFlip.Domain.Entities
 {
     [Table("ChangeEmailRequest")]
-    public class ChangeEmailRequest
+    public class ChangeEmailRequest : Identifyable
     {
         [Key]
-        public int UserId { get; set; }
+        public int Id { get; set; }
         [Required]
         public string ConfirmationToken { get; set; }
         [Required]
         public string NewEmail { get; set; }
-        [ForeignKey("UserId")]
+        [ForeignKey("Id")]
         public virtual CBFUser User { get; set; }
     }
 }

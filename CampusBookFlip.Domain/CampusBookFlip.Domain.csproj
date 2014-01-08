@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\Identifyable.cs" />
     <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFRepository.cs" />
@@ -109,6 +110,10 @@
     <Compile Include="Migrations\201401061337030_NullablePageCount.Designer.cs">
       <DependentUpon>201401061337030_NullablePageCount.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201401071724129_IdentifyableAndUserIdChangeEmailRequest.cs" />
+    <Compile Include="Migrations\201401071724129_IdentifyableAndUserIdChangeEmailRequest.Designer.cs">
+      <DependentUpon>201401071724129_IdentifyableAndUserIdChangeEmailRequest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -149,6 +154,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201401061337030_NullablePageCount.resx">
       <DependentUpon>201401061337030_NullablePageCount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401071724129_IdentifyableAndUserIdChangeEmailRequest.resx">
+      <DependentUpon>201401071724129_IdentifyableAndUserIdChangeEmailRequest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,5 @@
 ﻿using CampusBookFlip.Domain.Abstract;
+using CampusBookFlip.Domain.Entities;
 using CampusBookFlip.WebUI.Infrastructure;
 using CampusBookFlip.WebUI.Models;
 using System;
@@ -20,23 +21,6 @@ namespace CampusBookFlip.WebUI.Controllers
         //
         // GET: /ParticipatingColleges/
 
-        //public ViewResult List(int page = 1)
-        //{
-        //    ProductListViewModel model = new ProductListViewModel
-        //    {
-        //        Products = repo.Product,
-        //        //.OrderBy(p => p.Id).Skip((page - 1) * PageSize).Take(PageSize),
-        //        PagingInfo = new PagingInfo
-        //        {
-        //            CurrentPage = page,
-        //            ItemsPerPage = PageSize,
-        //            TotalItems = repo.Product.Count()
-        //        }
-        //    };
-        //    //return View("../Product/List",model);
-        //    return View("List", model.Products);
-        //}
-
         public ActionResult Index(int page = 1)
         {
             if (page < 1)
@@ -44,16 +28,16 @@ namespace CampusBookFlip.WebUI.Controllers
                 page = 1;
             }
             int ItemsPerPage = Constants.ParticipatingCollegesItemsPerPage;
+            IEnumerable<Institution> ins = repo.Institution.Where(i => i.Activated);
             return View(new CollegeListViewModel
             {
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
-                    TotalItems = repo.XInstitution.Where(i => i.Activated).Count(),
+                    TotalItems = ins.Count(),
                     ItemsPerPage = ItemsPerPage,
                 },
-                Institutions = repo.Institution.
-                Where(i => i.Activated).
+                Institutions = ins.
                 OrderBy(c => c.State).
                 ThenBy(c => c.City).
                 ThenBy(c => c.Name).

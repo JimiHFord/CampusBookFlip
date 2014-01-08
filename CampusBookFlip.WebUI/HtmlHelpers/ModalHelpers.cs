@@ -40,6 +40,12 @@ namespace CampusBookFlip.WebUI.HtmlHelpers
 
         public static MvcHtmlString BootstrapDefault(this HtmlHelper htmlHelper, string ModalId, string ModalLabel, string ModalTitle, string ModalBodyId, string ModalPrimaryButtonId, string ModalPrimaryButtonLabel, string VirtualGifPath = "~/Images/ajax-loader.gif")
         {
+            //, string ModalId, string ModalLabel, string ModalTitle, string ModalBodyId, string ModalPrimaryButtonId, string ModalPrimaryButtonLabel, string VirtualGifPath = "~/Images/ajax-loader.gif")
+            //string ModalId = options.ModalId;
+            //string ModalLabel = options.ModalLabel;
+            //string ModalBodyId = options.ModalBodyId;
+            //string ModalPrimaryButtonId = options.ModalPrimaryButtonId;
+            //string ModalPrimaryButtonLabel = options.ModalPrimaryButtonLabel;
             var modal = new TagBuilder("div");
             modal.Attributes["id"] = ModalId;
             modal.Attributes["aria-labelledby"] = ModalLabel;
