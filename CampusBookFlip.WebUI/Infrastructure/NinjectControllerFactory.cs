@@ -36,6 +36,7 @@ namespace CampusBookFlip.WebUI.Infrastructure
             ninjectKernel.Bind<IRepository>().To<EFRepository>();
             ninjectKernel.Bind<IEmailService>().To<EmailService>();
             ninjectKernel.Bind<ICBFSecurity>().To<CBFSecurity>();
+            ninjectKernel.Bind<IGoogleSearch>().To<GoogleSearch>();
         }
 
         private void RegisterAPI()

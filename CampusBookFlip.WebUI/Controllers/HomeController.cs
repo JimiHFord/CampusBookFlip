@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using CampusBookFlip.WebUI.Infrastructure;
 using CampusBookFlip.Domain.Abstract;
 using CampusBookFlip.WebUI.Models;
+using CampusBookFlip.WebUI.Abstract;
 
 namespace CampusBookFlip.WebUI.Controllers
 {
@@ -18,10 +19,12 @@ namespace CampusBookFlip.WebUI.Controllers
     {
         private const string slogon = "Textbook buying and selling made easy.";
         private IRepository repo;
+        private IGoogleSearch google;
 
-        public HomeController(IRepository repo)
+        public HomeController(IRepository repo, IGoogleSearch google)
         {
             this.repo = repo;
+            this.google = google;
         }
 
         public ActionResult Index()
@@ -49,7 +52,7 @@ namespace CampusBookFlip.WebUI.Controllers
         public ActionResult Search(BookSearchTextViewModel model)
         {
             ViewBag.Message = slogon;
-            List<Book> bookList = CampusBookFlip.WebUI.Infrastructure.Google.Search(model.ISBN, repo);
+            List<Book> bookList = google.Search(model.ISBN);
             return PartialView("~/Views/Books/AJAXSearchResultsBookList.cshtml",
                 new CampusBookFlip.WebUI.Models.BookListViewModel { Books = bookList });
         }

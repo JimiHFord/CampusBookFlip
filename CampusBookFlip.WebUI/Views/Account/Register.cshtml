@@ -27,7 +27,7 @@
 
             
             @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeHolder = "User name" })
-            @Html.ValidationMessageFor(m => m.UserName)
+            @Html.ValidationMessage("UserName", new { @class = "alert alert-info" })
             
 
             @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeHolder = "First name" })
