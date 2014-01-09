@@ -20,7 +20,11 @@ namespace CampusBookFlip.WebUI
             //    url: "{controller}/{action}/{id}",
             //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             //);
-
+            routes.MapRoute(
+                name: "ResetPassword",
+                url: "account/reset-password/{id}",
+                defaults: new { controller = "Account", action = "ResetPassword" }
+            );
             routes.Add(new LowercaseDashedRoute(url: "{controller}/{action}/{id}",
                 defaults: new RouteValueDictionary(
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional }),

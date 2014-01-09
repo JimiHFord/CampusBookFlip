@@ -23,10 +23,7 @@ namespace CampusBookFlip.WebUI.Controllers
 
         public ActionResult Index(int page = 1)
         {
-            if (page < 1)
-            {
-                page = 1;
-            }
+            page = page < 1 ? 1 : page;
             int ItemsPerPage = Constants.ParticipatingCollegesItemsPerPage;
             IEnumerable<Institution> ins = repo.Institution.Where(i => i.Activated);
             return View(new CollegeListViewModel

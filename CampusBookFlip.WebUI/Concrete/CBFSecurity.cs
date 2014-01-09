@@ -61,7 +61,7 @@ namespace CampusBookFlip.WebUI.Concrete
 
         public string GeneratePasswordResetToken(string userName, int tokenExpirationInMinutesFromNow = 1440)
         {
-            return WebSecurity.GeneratePasswordResetToken(userName, tokenExpirationInMinutesFromNow).ToLower();
+            return WebSecurity.GeneratePasswordResetToken(userName, tokenExpirationInMinutesFromNow);
         }
 
         public int GetUserIdFromPasswordResetToken(string passwordResetToken)
