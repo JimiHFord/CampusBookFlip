@@ -38,7 +38,11 @@
     </div>  
     <div class="row fade">
         <div class="col-md-12">
-            <strong>Description: </strong>@Html.DisplayFor(m => item.Description)
+            <strong>Description: </strong>@Html.DisplayFor(m => item.ShortDescription)
+            @if (item.NeedsAbbreviation)
+            {
+                <text>...</text>
+            }
         </div>
     </div>
     <hr />

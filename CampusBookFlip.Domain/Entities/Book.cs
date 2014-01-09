@@ -14,6 +14,9 @@ namespace CampusBookFlip.Domain.Entities
         public const string UNKNOWN = "unknown";
         public const string YES = "yes";
         public const string NO = "no";
+        public const int MAX_WORDS = 100;
+
+        public const int MAX_CHARACTERS = 300;
     }
 
     [Table("Book")]
@@ -107,6 +110,38 @@ namespace CampusBookFlip.Domain.Entities
                 string plural = "Authors", singular = "Author";
                 return !HasAuthors ? plural :
                     Authors.Count() > 1 ? plural : singular;
+            }
+        }
+
+        public bool NeedsAbbreviation
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(Description) && !(Description.Length < BookHelper.MAX_CHARACTERS);
+            }
+        }
+
+        public string ShortDescription
+        {
+            get
+            {
+                //StringBuilder retval = new StringBuilder();
+                //string tostring = string.Empty;
+                //string[] split = Description.Split(new char[] { ' ' });
+                //if (split.Count() > BookHelper.MAX_WORDS)
+                //{
+
+                //}
+                //else
+                //{
+                //    foreach (var s in split)
+                //    {
+                //        retval.Append(s + " ");
+                //    }
+                //    tostring = retval.ToString();
+                //}
+                return NeedsAbbreviation ? Description.Substring(0, BookHelper.MAX_CHARACTERS) :
+                    Description;
             }
         }
     }

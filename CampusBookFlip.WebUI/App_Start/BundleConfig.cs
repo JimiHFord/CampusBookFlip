@@ -18,7 +18,8 @@ namespace CampusBookFlip.WebUI
                         "~/Scripts/jquery.unobtrusive*",
                         "~/Scripts/jquery.validate*"));
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                "~/Scripts/bootstrap.js"));
+                "~/Scripts/bootstrap.js",
+                "~/Scripts/bootstrap-switch.js"));
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -28,7 +29,8 @@ namespace CampusBookFlip.WebUI
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/Site.css"));
             bundles.Add(new StyleBundle("~/Content/bootstrap").Include(
                 "~/Content/bootstrap.css",
-                "~/Content/bootstrap-theme.css"));
+                "~/Content/bootstrap-theme.css",
+                "~/Content/bootstrap-switch.css"));
             bundles.Add(new StyleBundle("~/Content/font-awesome").Include(
                 "~/Content/font-awesome.css"));
             bundles.Add(new StyleBundle("~/Content/social-buttons").Include(

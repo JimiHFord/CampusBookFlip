@@ -60,14 +60,14 @@
                 <span class="input-group-btn">
                     <button id="click-on-enter" class="btn btn-primary" onclick="home_search_ajax_post()" >Go!</button>
                 </span>
-                <script type="text/javascript">
-                    $("input#ISBN").keyup(function (event) {
-                        if (event.keyCode == 13) {
-                            $("#click-on-enter").click();
-                        }
-                    });
-                </script>
             </div>
+            <script type="text/javascript">
+                $("input#ISBN").keyup(function (event) {
+                    if (event.keyCode == 13) {
+                        $("#click-on-enter").click();
+                    }
+                });
+                </script>
             @Html.ValidationMessageFor(m => m.ISBN)
         </div>
     </div>

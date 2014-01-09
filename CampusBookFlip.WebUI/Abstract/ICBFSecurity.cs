@@ -36,5 +36,6 @@ namespace CampusBookFlip.WebUI.Abstract
 
         string NewToken { get; }
 
+        bool HasLocalAccount(int id);
     }
 }

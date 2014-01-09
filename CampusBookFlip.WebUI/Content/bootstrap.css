@@ -5309,7 +5309,28 @@ a.thumbnail.active {
   border: 1px solid transparent;
   border-radius: 4px;
 }
-
+.validation-summary-errors
+{
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    /*.alert-error();*/
+}
+.field-validation-error 
+{
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    /*.label-important();*/
+}
 .alert h4 {
   margin-top: 0;
   color: inherit;
