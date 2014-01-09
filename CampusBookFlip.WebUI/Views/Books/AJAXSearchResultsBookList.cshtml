@@ -37,6 +37,25 @@
         </div>
     </div>  
     <div class="row fade">
+        <div class="col-md-4">
+            <strong>@item.AuthorsLabel:</strong>
+            @if(item.HasMultipleAuthors) {
+                <ul>
+                    @foreach (var author in item.Authors)
+                    {
+                        <li>@author.Author.Name</li>
+                    }
+                </ul>
+            }
+            else if(item.HasAuthors) {
+                @item.Authors.FirstOrDefault().Author.Name
+            }
+            else {
+                @:unknown
+            }
+        </div>
+    </div>
+    <div class="row fade">
         <div class="col-md-12">
             <strong>Description: </strong>@Html.DisplayFor(m => item.ShortDescription)
             @if (item.NeedsAbbreviation)

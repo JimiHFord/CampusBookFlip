@@ -103,6 +103,14 @@ namespace CampusBookFlip.Domain.Entities
             }
         }
 
+        public bool HasMultipleAuthors
+        {
+            get
+            {
+                return HasAuthors && Authors.Count() > 1;
+            }
+        }
+
         public string AuthorsLabel
         {   
             get
