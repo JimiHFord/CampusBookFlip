@@ -14,12 +14,13 @@ namespace CampusBookFlip.WebUI
         {
             
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            routes.LowercaseUrls = true;
+            //routes.LowercaseUrls = true;
             //routes.MapRoute(
             //    name: "Default",
             //    url: "{controller}/{action}/{id}",
             //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             //);
+
             routes.Add(new LowercaseDashedRoute(url: "{controller}/{action}/{id}",
                 defaults: new RouteValueDictionary(
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional }),

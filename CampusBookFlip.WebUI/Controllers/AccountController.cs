@@ -14,6 +14,9 @@ using CampusBookFlip.Domain.Abstract;
 using PoliteCaptcha;
 using Postal;
 using CampusBookFlip.Domain.Entities;
+using CampusBookFlip.WebUI.Abstract;
+using System.Text.RegularExpressions;
+using CampusBookFlip.WebUI.Infrastructure;
 
 namespace CampusBookFlip.WebUI.Controllers
 {
@@ -23,11 +26,13 @@ namespace CampusBookFlip.WebUI.Controllers
     {
         private IRepository repo;
         private IEmailService eservice;
+        private ICBFSecurity secure;
 
-        public AccountController(IRepository repo, IEmailService eservice)
+        public AccountController(IRepository repo, IEmailService eservice, ICBFSecurity secure)
         {
             this.repo = repo;
             this.eservice = eservice;
+            this.secure = secure;
         }
 
         //
@@ -48,7 +53,7 @@ namespace CampusBookFlip.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            if (ModelState.IsValid && secure.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
                 return RedirectToLocal(returnUrl);
             }
@@ -65,7 +70,7 @@ namespace CampusBookFlip.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            WebSecurity.Logout();
+            secure.Logout();
 
             return RedirectToAction("Index", "Home");
         }
@@ -97,7 +102,7 @@ namespace CampusBookFlip.WebUI.Controllers
                 // Attempt to register the user
                 try
                 {
-                    string confirmationToken = WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new
+                    string confirmationToken = secure.CreateUserAndAccount(model.UserName, model.Password, new
                     {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
@@ -134,7 +139,7 @@ namespace CampusBookFlip.WebUI.Controllers
         [AllowAnonymous]
         public ActionResult RegisterConfirmation(string Id)
         {
-            if (WebSecurity.ConfirmAccount(Id) || repo.ConfirmAccount(Id))
+            if (secure.ConfirmAccount(Id))
             {
                 return RedirectToAction("ConfirmationSuccess");
             }
@@ -159,9 +164,105 @@ namespace CampusBookFlip.WebUI.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPassword(ForgotPasswordViewModel model) 
+        {
+            if (!secure.UserExists(model.UsernameOrEmail) && repo.User.Count(u => u.EmailAddress == model.UsernameOrEmail) == 0)
+            {
+                string regex = @"^([0-9a-zA-Z]([\+\-_\.][0-9a-zA-Z]+)*)+@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,3})$";
+                Regex r = new Regex(regex);
+                if (r.IsMatch(model.UsernameOrEmail))
+                {
+                    ModelState.AddModelError("", "Could not find this email address in our records.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "This user name does not exist with us.");
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                DateTime now = DateTime.Now;
+                DateTime reset = now.AddDays(1);
+                CBFUser user = repo.User.FirstOrDefault(u => u.EmailAddress == model.UsernameOrEmail || u.AppUserName == model.UsernameOrEmail);
+                string confirmationToken = secure.GeneratePasswordResetToken(user.AppUserName, (int)reset.Subtract(now).TotalMinutes);
+                var email = new ForgotPasswordEmail
+                {
+                    ConfirmationToken = confirmationToken.ToLower(),
+                    From = Constants.EMAIL_NO_REPLY,
+                    To = user.EmailAddress,
+                    FirstName = user.FirstName,
+                    Subject = Constants.FORGOT_PASSWORD,
+                    Expiration = reset
+                };
+                eservice.Send(email);
+                return RedirectToAction("ForgotPasswordStepTwo");
+            }
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        public ViewResult ForgotPasswordStepTwo()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string id)
+        {
+            int UserId = secure.GetUserIdFromPasswordResetToken(id);
+            if (UserId >= 1)
+            {
+                ResetPasswordViewModel model = new ResetPasswordViewModel
+                {
+                    PasswordResetToken = id
+                };
+                return View(model);
+            }
+            return RedirectToAction("ResetPasswordFailure");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        [ValidateSpamPrevention]
+        public ActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                int UserId = secure.GetUserIdFromPasswordResetToken(model.PasswordResetToken);
+                CBFUser user = repo.User.FirstOrDefault(u => u.Id == UserId);
+                if (secure.ResetPassword(model.PasswordResetToken, model.Password))
+                {
+                    secure.Login(user.AppUserName, model.Password);
+                    return RedirectToAction("ResetPasswordSuccess");
+                }
+                else
+                {
+                    return RedirectToAction("ResetPasswordFailure");
+                }
+            }
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        public ActionResult ResetPasswordFailure()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult ResetPasswordSuccess()
+        {
+            return View();
+        }
+
         public ViewResult ChangeEmail()
         {
-            int id = WebSecurity.CurrentUserId;
+            int id = secure.CurrentUserId;
             CBFUser user = repo.User.FirstOrDefault(u => u.Id == id);
             return View(new ChangeEmailViewModel
             {
@@ -179,8 +280,8 @@ namespace CampusBookFlip.WebUI.Controllers
             }
             if (ModelState.IsValid)
             {
-                string confirmationToken = Guid.NewGuid().ToString();
-                int id = WebSecurity.CurrentUserId;
+                string confirmationToken = secure.NewToken;
+                int id = secure.CurrentUserId;
                 CBFUser currentUser = repo.User.FirstOrDefault(c => c.Id == id);
                 repo.SaveChangeEmailRequest(new ChangeEmailRequest
                 {
@@ -299,7 +400,7 @@ namespace CampusBookFlip.WebUI.Controllers
                     bool changePasswordSucceeded;
                     try
                     {
-                        changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
+                        changePasswordSucceeded = secure.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
                     }
                     catch (Exception)
                     {
@@ -330,7 +431,7 @@ namespace CampusBookFlip.WebUI.Controllers
                 {
                     try
                     {
-                        WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword, requireConfirmationToken: false);
+                        secure.CreateAccount(User.Identity.Name, model.NewPassword, requireConfirmationToken: false);
                         return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
                     }
                     catch (Exception)
@@ -426,8 +527,8 @@ namespace CampusBookFlip.WebUI.Controllers
                 if (user == null)
                 {
                     // Insert name into the profile table
-                    string confirmationToken = Guid.NewGuid().ToString();
-                    repo.SaveUser(new Domain.Entities.CBFUser { AppUserName = model.UserName.ToLower(), FirstName = model.FirstName, LastName = model.LastName, Paid = false, EmailAddress = model.EmailAddress, OAuthConfirmEmailToken = confirmationToken, ConfirmedEmail = false });
+                    string confirmationToken = secure.NewToken;
+                    repo.SaveUser(new Domain.Entities.CBFUser { AppUserName = model.UserName.ToLower(), FirstName = model.FirstName, LastName = model.LastName, Paid = false, EmailAddress = model.EmailAddress, ConfirmEmailToken = confirmationToken, ConfirmedEmail = false });
                     OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName.ToLower());
                     //OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
                     //return RedirectToLocal(returnUrl);
@@ -488,7 +589,7 @@ namespace CampusBookFlip.WebUI.Controllers
                 });
             }
 
-            ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
+            ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(secure.GetUserId(User.Identity.Name));
             return PartialView("_RemoveExternalLoginsPartial", externalLogins);
         }
 

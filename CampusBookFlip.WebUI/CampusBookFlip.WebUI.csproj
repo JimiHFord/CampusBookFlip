@@ -247,11 +247,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\ICBFSecurity.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Concrete\CBFSecurity.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -412,6 +414,12 @@
     <Content Include="Views\Account\ChangeEmailSuccess.cshtml" />
     <Content Include="Views\Account\ChangeEmailFailure.cshtml" />
     <Content Include="Views\ParticipatingColleges\Index.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Emails\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordSuccess.cshtml" />
+    <Content Include="Views\Account\ResetPasswordFailure.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordStepTwo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
