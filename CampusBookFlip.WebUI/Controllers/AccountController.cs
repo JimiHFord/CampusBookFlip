@@ -97,6 +97,12 @@ namespace CampusBookFlip.WebUI.Controllers
             {
                 ModelState.AddModelError("", "This email is already registered with another account.");
             }
+            string regex = @"^([0-9a-zA-Z]([\+\-_\.][0-9a-zA-Z]+)*)+@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,3})$";
+            Regex r = new Regex(regex);
+            if (r.IsMatch(model.UserName))
+            {
+                ModelState.AddModelError("", "Please use something other than an email for your user name.");
+            }
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
@@ -169,10 +175,10 @@ namespace CampusBookFlip.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(ForgotPasswordViewModel model) 
         {
+            string regex = @"^([0-9a-zA-Z]([\+\-_\.][0-9a-zA-Z]+)*)+@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,3})$";
+                Regex r = new Regex(regex);
             if (!secure.UserExists(model.UsernameOrEmail) && repo.User.Count(u => u.EmailAddress == model.UsernameOrEmail) == 0)
             {
-                string regex = @"^([0-9a-zA-Z]([\+\-_\.][0-9a-zA-Z]+)*)+@(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]*\.)+[a-zA-Z0-9]{2,3})$";
-                Regex r = new Regex(regex);
                 if (r.IsMatch(model.UsernameOrEmail))
                 {
                     ModelState.AddModelError("", "Could not find this email address in our records.");
@@ -182,6 +188,17 @@ namespace CampusBookFlip.WebUI.Controllers
                     ModelState.AddModelError("", "This user name does not exist with us.");
                 }
             }
+            else
+            {
+
+                CBFUser user = r.IsMatch(model.UsernameOrEmail) ? repo.User.FirstOrDefault(u => u.EmailAddress == model.UsernameOrEmail) : 
+                repo.User.FirstOrDefault(u => u.AppUserName == model.UsernameOrEmail);
+                if (!secure.HasLocalAccount(user.Id))
+                {
+                    ModelState.AddModelError("", "You do not have a local password to reset. Try using the authentication provider you signed up with to log in.");
+                }
+            }
+            
 
             if (ModelState.IsValid)
             {
@@ -191,7 +208,7 @@ namespace CampusBookFlip.WebUI.Controllers
                 string confirmationToken = secure.GeneratePasswordResetToken(user.AppUserName, (int)reset.Subtract(now).TotalMinutes);
                 var email = new ForgotPasswordEmail
                 {
-                    ConfirmationToken = confirmationToken.ToLower(),
+                    ConfirmationToken = confirmationToken,
                     From = Constants.EMAIL_NO_REPLY,
                     To = user.EmailAddress,
                     FirstName = user.FirstName,

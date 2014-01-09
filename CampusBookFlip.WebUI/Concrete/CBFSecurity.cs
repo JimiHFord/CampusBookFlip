@@ -1,5 +1,6 @@
 ﻿using CampusBookFlip.Domain.Abstract;
 using CampusBookFlip.WebUI.Abstract;
+using Microsoft.Web.WebPages.OAuth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,7 @@ namespace CampusBookFlip.WebUI.Concrete
 
         public string GeneratePasswordResetToken(string userName, int tokenExpirationInMinutesFromNow = 1440)
         {
-            return WebSecurity.GeneratePasswordResetToken(userName, tokenExpirationInMinutesFromNow);
+            return WebSecurity.GeneratePasswordResetToken(userName, tokenExpirationInMinutesFromNow).ToLower();
         }
 
         public int GetUserIdFromPasswordResetToken(string passwordResetToken)
@@ -95,6 +96,11 @@ namespace CampusBookFlip.WebUI.Concrete
             {
                 return Guid.NewGuid().ToString();
             }
+        }
+
+        public bool HasLocalAccount(int id)
+        {
+            return OAuthWebSecurity.HasLocalAccount(id);
         }
     }
 }

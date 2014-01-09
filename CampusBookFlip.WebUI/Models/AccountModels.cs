@@ -114,8 +114,13 @@ namespace CampusBookFlip.WebUI.Models
 
         [Required]
         [EmailAddress]
-        [Display(Name = "Email Address")]
+        [Display(Name = "Email address")]
         public string EmailAddress { get; set; }
+
+        [Display(Name = "Confirm email")]
+        [Required]
+        [Compare("Password", ErrorMessage = "The email fields do not match")]
+        public string ConfirmEmail { get; set; }
     }
 
     public class ExternalLogin
