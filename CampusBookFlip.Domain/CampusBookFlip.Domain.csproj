@@ -114,6 +114,10 @@
     <Compile Include="Migrations\201401071724129_IdentifyableAndUserIdChangeEmailRequest.Designer.cs">
       <DependentUpon>201401071724129_IdentifyableAndUserIdChangeEmailRequest.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201401090006137_ConfirmEmailToken.cs" />
+    <Compile Include="Migrations\201401090006137_ConfirmEmailToken.Designer.cs">
+      <DependentUpon>201401090006137_ConfirmEmailToken.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -157,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201401071724129_IdentifyableAndUserIdChangeEmailRequest.resx">
       <DependentUpon>201401071724129_IdentifyableAndUserIdChangeEmailRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201401090006137_ConfirmEmailToken.resx">
+      <DependentUpon>201401090006137_ConfirmEmailToken.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

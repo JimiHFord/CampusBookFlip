@@ -25,6 +25,7 @@ namespace CampusBookFlip.WebUI.Infrastructure
         public static string EMAIL_NO_REPLY { get { return "no-reply@campusbookflip.com"; } }
         public static string COMPLETE_REGISTRATION_PROCESS { get { return "Complete Registration Process"; } }
         public static string CHANGE_EMAIL { get { return "Change Email"; } }
+        public static string FORGOT_PASSWORD { get { return "Password Reset"; } }
 
         public static bool MakeGoogleRequest
         {

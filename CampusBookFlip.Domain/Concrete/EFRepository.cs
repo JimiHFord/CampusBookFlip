@@ -28,7 +28,7 @@ namespace CampusBookFlip.Domain.Concrete
             {
                 return false;
             }
-            CBFUser user = context.User.FirstOrDefault(u => u.OAuthConfirmEmailToken == id);
+            CBFUser user = context.User.FirstOrDefault(u => u.ConfirmEmailToken == id);
             if (user != null)
             {
                 user.ConfirmedEmail = true;

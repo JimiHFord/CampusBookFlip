@@ -6,12 +6,24 @@ using System.Web;
 
 namespace CampusBookFlip.WebUI.Models
 {
+    public class CBFEmailException : Exception
+    {
+        public CBFEmailException(string ex) : base(ex)
+        {
+            
+        }
+    }
+
     public class CBFEmail : Email
     {
         public string To { get; set; }
         public string From { get; set; }
         public string FirstName { get; set; }
         public string Subject { get; set; }
+        //public override void Send()
+        //{
+        //    throw new CBFEmailException("Do not use the email's send method. Use the IEmailService provider");
+        //}
     }
 
     public class ConfirmTokenEmail : CBFEmail
@@ -23,5 +35,10 @@ namespace CampusBookFlip.WebUI.Models
     {
         public string NewEmail { get; set; }
         public string OldEmail { get; set; }
+    }
+
+    public class ForgotPasswordEmail : ConfirmTokenEmail
+    {
+        public DateTime Expiration { get; set; }
     }
 }
