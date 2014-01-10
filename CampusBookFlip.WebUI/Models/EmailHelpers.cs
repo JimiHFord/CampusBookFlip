@@ -29,6 +29,7 @@ namespace CampusBookFlip.WebUI.Models
     public class ConfirmTokenEmail : CBFEmail
     {
         public string ConfirmationToken { get; set; }
+        public string SharedSecret { get; set; }
     }
 
     public class NewEmailTokenEmail : ConfirmTokenEmail

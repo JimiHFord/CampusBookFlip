@@ -290,6 +290,8 @@ namespace CampusBookFlip.Domain.Concrete
                 entry.FirstName = user.FirstName;
                 entry.LastName = user.LastName;
                 entry.Paid = user.Paid;
+                //entry.CESS = user.CESS;
+                //entry.FPSS = user.FPSS;
                 context.SaveChanges();
                 pk = entry.Id;
             }

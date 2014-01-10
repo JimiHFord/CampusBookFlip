@@ -119,7 +119,7 @@ namespace CampusBookFlip.WebUI.Models
 
         [Display(Name = "Confirm email")]
         [Required]
-        [Compare("Password", ErrorMessage = "The email fields do not match")]
+        [Compare("EmailAddress", ErrorMessage = "The email fields do not match")]
         public string ConfirmEmail { get; set; }
     }
 

@@ -115,11 +115,14 @@ namespace CampusBookFlip.WebUI.Controllers
                         Paid = false,
                         EmailAddress = model.EmailAddress
                     }, requireConfirmationToken: true);
+                    string sharedSecret = secure.NewToken;
+                    confirmationToken = secure.EncryptStringAES(confirmationToken, sharedSecret);
                     var email = new CampusBookFlip.WebUI.Models.ConfirmTokenEmail
                     {
                         To = model.EmailAddress,
                         FirstName = model.FirstName,
                         ConfirmationToken = confirmationToken,
+                        SharedSecret = sharedSecret,
                         From = CampusBookFlip.WebUI.Infrastructure.Constants.EMAIL_NO_REPLY,
                         Subject = CampusBookFlip.WebUI.Infrastructure.Constants.COMPLETE_REGISTRATION_PROCESS,
                     };
@@ -143,9 +146,10 @@ namespace CampusBookFlip.WebUI.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult RegisterConfirmation(string Id)
+        public ActionResult RegisterConfirmation(string token, string secret)
         {
-            if (secure.ConfirmAccount(Id))
+            token = secure.DecryptStringAES(token, secret);
+            if (secure.ConfirmAccount(token))
             {
                 return RedirectToAction("ConfirmationSuccess");
             }
@@ -205,10 +209,17 @@ namespace CampusBookFlip.WebUI.Controllers
                 DateTime now = DateTime.Now;
                 DateTime reset = now.AddDays(1);
                 CBFUser user = repo.User.FirstOrDefault(u => u.EmailAddress == model.UsernameOrEmail || u.AppUserName == model.UsernameOrEmail);
-                string confirmationToken = secure.GeneratePasswordResetToken(user.AppUserName, (int)reset.Subtract(now).TotalMinutes);
+                string sharedSecret = secure.NewToken;
+
+                string confirmationToken = secure.EncryptStringAES(
+                    plainText: secure.GeneratePasswordResetToken(user.AppUserName, (int)reset.Subtract(now).TotalMinutes),
+                    sharedSecret: sharedSecret
+                );
+                
                 var email = new ForgotPasswordEmail
                 {
                     ConfirmationToken = confirmationToken,
+                    SharedSecret = sharedSecret,
                     From = Constants.EMAIL_NO_REPLY,
                     To = user.EmailAddress,
                     FirstName = user.FirstName,
@@ -228,14 +239,15 @@ namespace CampusBookFlip.WebUI.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult ResetPassword(string id)
+        public ActionResult ResetPassword(string token, string secret)
         {
-            int UserId = secure.GetUserIdFromPasswordResetToken(id);
+            token = secure.DecryptStringAES(token, secret);
+            int UserId = secure.GetUserIdFromPasswordResetToken(token);
             if (UserId >= 1)
             {
                 ResetPasswordViewModel model = new ResetPasswordViewModel
                 {
-                    PasswordResetToken = id
+                    PasswordResetToken = token
                 };
                 return View(model);
             }
@@ -297,12 +309,15 @@ namespace CampusBookFlip.WebUI.Controllers
             }
             if (ModelState.IsValid)
             {
-                string confirmationToken = secure.NewToken;
+                string originalConfirmationToken = secure.NewToken;
+                string sharedSecret = secure.NewToken;
+                string confirmationToken = secure.EncryptStringAES(originalConfirmationToken, sharedSecret);
+
                 int id = secure.CurrentUserId;
                 CBFUser currentUser = repo.User.FirstOrDefault(c => c.Id == id);
                 repo.SaveChangeEmailRequest(new ChangeEmailRequest
                 {
-                    ConfirmationToken = confirmationToken,
+                    ConfirmationToken = originalConfirmationToken,
                     NewEmail = model.EmailAddress,
                     Id = currentUser.Id
                 });
@@ -313,6 +328,7 @@ namespace CampusBookFlip.WebUI.Controllers
                     Subject = CampusBookFlip.WebUI.Infrastructure.Constants.CHANGE_EMAIL,
                     To = model.EmailAddress,
                     ConfirmationToken = confirmationToken,
+                    SharedSecret = sharedSecret,
                     NewEmail = model.EmailAddress,
                     OldEmail = currentUser.EmailAddress
                 };
@@ -329,9 +345,10 @@ namespace CampusBookFlip.WebUI.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult RegisterNewEmail(string id)
+        public ActionResult RegisterNewEmail(string token, string secret)
         {
-            ChangeEmailRequest request = repo.ChangeEmailRequest.FirstOrDefault(c => c.ConfirmationToken == id);
+            token = secure.DecryptStringAES(token, secret);
+            ChangeEmailRequest request = repo.ChangeEmailRequest.FirstOrDefault(c => c.ConfirmationToken == token);
             if (request == null)
             {
                 return RedirectToAction("ChangeEmailFailure");
