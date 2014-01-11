@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Web.WebPages.OAuth;
 using CampusBookFlip.WebUI.Models;
+using CampusBookFlip.WebUI.Concrete;
 
 namespace CampusBookFlip.WebUI
 {
@@ -31,6 +32,14 @@ namespace CampusBookFlip.WebUI
             OAuthWebSecurity.RegisterLinkedInClient(
                 consumerKey: "756lkuaxqsy6zm",
                 consumerSecret: "wek4Mt0qVBOQNklS");
+            //Can't test on localhost - also need https - can't use http
+            OAuthWebSecurity.RegisterClient(new AmazonClient(
+                clientId: "amzn1.application-oa2-client.938ca32874aa4fdb94b6011b35b656ef",
+                clientSecret: "b01af741b8958f1ae345a07ea9af64e517d342272b6608753b9a4bab9aeb9023"), "Amazon", null);
+
+            OAuthWebSecurity.RegisterClient(new InstagramClient(
+                clientId: "467f349a0aa842ebbd53c348ba0115b7",
+                clientSecret: "dc5ef91ae2ad4ce6b4a08c72dfa55ddd"), "Instagram", null);
 
         }
     }
