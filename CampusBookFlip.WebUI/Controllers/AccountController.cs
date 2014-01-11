@@ -562,13 +562,16 @@ namespace CampusBookFlip.WebUI.Controllers
                 {
                     // Insert name into the profile table
                     string confirmationToken = secure.NewToken;
+                    string sharedSecret = secure.NewToken;
                     repo.SaveUser(new Domain.Entities.CBFUser { AppUserName = model.UserName.ToLower(), FirstName = model.FirstName, LastName = model.LastName, Paid = false, EmailAddress = model.EmailAddress, ConfirmEmailToken = confirmationToken, ConfirmedEmail = false });
+                    confirmationToken = secure.EncryptStringAES(confirmationToken, sharedSecret);
                     OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName.ToLower());
                     //OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
                     //return RedirectToLocal(returnUrl);
                     var email = new CampusBookFlip.WebUI.Models.ConfirmTokenEmail
                     {
                         ConfirmationToken = confirmationToken,
+                        SharedSecret = sharedSecret,
                         FirstName = model.FirstName,
                         To = model.EmailAddress,
                         From = CampusBookFlip.WebUI.Infrastructure.Constants.EMAIL_NO_REPLY,
