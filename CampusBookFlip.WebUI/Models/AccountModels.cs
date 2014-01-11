@@ -42,6 +42,7 @@ namespace CampusBookFlip.WebUI.Models
     {
         [Required]
         [Display(Name = "User name")]
+        //TODO: don't allow special characters
         public string UserName { get; set; }
         [Required]
         [Display(Name="First name")]
@@ -94,6 +95,7 @@ namespace CampusBookFlip.WebUI.Models
     {
         [Required]
         [Display(Name = "User name")]
+        //TODO: don't allow special characters
         public string UserName { get; set; }
         [Required]
         [Display(Name = "First name")]

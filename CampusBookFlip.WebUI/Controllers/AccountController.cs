@@ -24,7 +24,9 @@ namespace CampusBookFlip.WebUI.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
+        //repo is basically your database
         private IRepository repo;
+        //eservice is your email provider
         private IEmailService eservice;
         private ICBFSecurity secure;
 
@@ -33,6 +35,7 @@ namespace CampusBookFlip.WebUI.Controllers
             this.repo = repo;
             this.eservice = eservice;
             this.secure = secure;
+            
         }
 
         //
@@ -501,6 +504,7 @@ namespace CampusBookFlip.WebUI.Controllers
             {
                 return RedirectToAction("ExternalLoginFailure");
             }
+            
             string username = OAuthWebSecurity.GetUserName(result.Provider, result.ProviderUserId);
             if (!string.IsNullOrEmpty(username))
             {
