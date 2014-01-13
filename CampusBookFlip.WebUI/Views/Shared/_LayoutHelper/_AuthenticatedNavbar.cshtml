@@ -1,0 +1,9 @@
+﻿<ul class="nav navbar-nav navbar-right">
+    <li>@Html.ActionLink("home", "Index", "Home")</li>
+    <li>
+        @Html.RouteLink(User.Identity.Name, new { action = "Manage", controller = "Account" }, htmlAttributes: new { @class = "username", title = "Manage Account" })
+    </li>
+    <li>
+        <a href="javascript:document.getElementById('logoutForm').submit()">log off</a>
+    </li>
+</ul>

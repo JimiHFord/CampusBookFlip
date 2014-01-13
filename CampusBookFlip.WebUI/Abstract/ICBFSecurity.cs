@@ -8,6 +8,8 @@ namespace CampusBookFlip.WebUI.Abstract
 {
     public interface ICBFSecurity
     {
+        bool IsAdmin();
+
         bool ChangePassword(string userName, string currentPassword, string newPassword);
 
         bool ConfirmAccount(string accountConfirmationToken);

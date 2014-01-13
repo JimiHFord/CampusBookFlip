@@ -1,0 +1,22 @@
+﻿<ul class="nav navbar-nav navbar-right">
+    <li>@Html.ActionLink("home", "Index", "Home")</li>
+    <li>@Html.ActionLink("participating colleges", "Index", "ParticipatingColleges")</li>                        
+    <li class="dropdown" id="nav-dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Social Media<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="#"><i class="fa fa-twitter"></i> Twitter</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-facebook"></i> Facebook</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-google-plus"></i> Google+</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-youtube"></i> YouTube</a>
+            </li>
+        </ul>
+    </li>
+    <li>@Html.ActionLink("log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", title = "Register here as well" })</li>
+</ul>

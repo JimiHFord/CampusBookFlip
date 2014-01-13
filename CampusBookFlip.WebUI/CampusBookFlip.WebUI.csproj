@@ -260,6 +260,7 @@
     <Compile Include="Concrete\GoogleSearch.cs" />
     <Compile Include="Concrete\InstagramClient.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\InstitutionsController.cs" />
     <Compile Include="Controllers\Api\BooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ParticipatingCollegesController.cs" />
@@ -290,6 +291,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\simple-sidebar.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\social-buttons.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -429,10 +431,17 @@
     <Content Include="Views\Account\ResetPasswordFailure.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordStepTwo.cshtml" />
+    <Content Include="Views\Institutions\Index.cshtml" />
+    <Content Include="Views\Institutions\_AdminInstitutionSearchPartial.cshtml" />
+    <Content Include="Views\Shared\_LayoutHelper\_AuthenticatedNavbar.cshtml" />
+    <Content Include="Views\Shared\_LayoutHelper\_AnonymousNavbar.cshtml" />
+    <Content Include="Views\Shared\_LayoutHelper\_AuthenticatedAdminNavbar.cshtml" />
+    <Content Include="Views\Shared\_LayoutHelper\_AnonymousFooter.cshtml" />
+    <Content Include="Views\Shared\_LayoutHelper\_AuthenticatedAdminFooter.cshtml" />
+    <Content Include="Views\Shared\_LayoutHelper\_AuthenticatedFooter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -28,7 +28,10 @@
         @Html.ActionLink("Forgot password?", "ForgotPassword", "Account")
     </div>
     <div class="input-group form-group">
-        @Html.CheckBoxFor(m => m.RememberMe, new { id = "bootswitch" }) @Html.LabelFor(m => m.RememberMe, new { @*@class = "checkbox"*@ })
+        <a onclick="$('#bootswitch').bootstrapSwitch('toggleState')">Remember Me?</a>
+    </div>
+    <div class="input-group form-group">
+        @Html.CheckBoxFor(m => m.RememberMe, new { id = "bootswitch" }) 
     </div>
                 
     <input class="btn btn-primary" type="submit" value="Log in" />

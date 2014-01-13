@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using System.Web.Security;
 using WebMatrix.WebData;
 
 namespace CampusBookFlip.WebUI.Concrete
@@ -19,6 +20,11 @@ namespace CampusBookFlip.WebUI.Concrete
         public CBFSecurity(IRepository repo)
         {
             this.repo = repo;
+        }
+
+        public bool IsAdmin()
+        {
+            return Roles.IsUserInRole("Administrator");
         }
 
         public bool ChangePassword(string userName, string currentPassword, string newPassword)
