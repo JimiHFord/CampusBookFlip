@@ -38,6 +38,12 @@ namespace CampusBookFlip.WebUI
                 defaults: new { controller = "Account", action = "RegisterNewEmail" }
             );
 
+            routes.MapRoute(
+                name: "ParticipatingColleges",
+                url: "participating-colleges/page-{page}",
+                defaults: new { controller = "ParticipatingColleges", action = "Index" }
+            );
+
             routes.Add(new LowercaseDashedRoute(url: "{controller}/{action}/{id}",
                 defaults: new RouteValueDictionary(
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional }),

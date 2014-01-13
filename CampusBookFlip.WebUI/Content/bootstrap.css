@@ -4500,6 +4500,9 @@ div#bootstrap-wrap {
   font-size: 18px;
   line-height: 20px;
 }
+    .navbar-brand small {
+        font-size: 75%;
+    }
 
 .navbar-brand:hover,
 .navbar-brand:focus {

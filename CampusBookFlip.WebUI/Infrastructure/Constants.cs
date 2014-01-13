@@ -19,7 +19,7 @@ namespace CampusBookFlip.WebUI.Infrastructure
     public class Constants
     {
         public static string DEFAULT_PASSWORD { get { return "password"; } }
-        public static string ADMIN { get { return "Administrator"; } }
+        public const string ADMIN = "Administrator";
         public static string jimi { get { return "jford"; } }
         public static string wes { get { return "wjones"; } }
         public static string EMAIL_NO_REPLY { get { return "no-reply@campusbookflip.com"; } }

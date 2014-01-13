@@ -11,4 +11,16 @@ namespace CampusBookFlip.WebUI.Models
         public PagingInfo PagingInfo { get; set; }
         public IEnumerable<Institution> Institutions { get; set; }
     }
+
+    public class CollegeSearchViewModel
+    {
+        public string SearchText { get; set; }
+    }
+
+    public class CollegeSearchResultsViewModel
+    {
+        public double TotalSeconds { get; set; }
+        public double TotalMilliseconds { get; set; }
+        public IEnumerable<Institution> Colleges { get; set; }
+    }
 }
