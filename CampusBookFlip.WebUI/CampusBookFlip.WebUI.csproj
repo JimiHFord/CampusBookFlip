@@ -289,6 +289,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\carousel.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\simple-sidebar.css" />
@@ -439,6 +440,7 @@
     <Content Include="Views\Shared\_LayoutHelper\_AnonymousFooter.cshtml" />
     <Content Include="Views\Shared\_LayoutHelper\_AuthenticatedAdminFooter.cshtml" />
     <Content Include="Views\Shared\_LayoutHelper\_AuthenticatedFooter.cshtml" />
+    <Content Include="Views\Home\Welcome.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
