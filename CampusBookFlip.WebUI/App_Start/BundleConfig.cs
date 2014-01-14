@@ -31,7 +31,7 @@ namespace CampusBookFlip.WebUI
                 "~/Content/bootstrap.css",
                 "~/Content/bootstrap-theme.css",
                 "~/Content/bootstrap-switch.css",
-                "~/Content/simple-sidebar.css"));
+                "~/Content/carousel.css"));
             bundles.Add(new StyleBundle("~/Content/font-awesome").Include(
                 "~/Content/font-awesome.css"));
             bundles.Add(new StyleBundle("~/Content/social-buttons").Include(

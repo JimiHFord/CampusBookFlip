@@ -19,21 +19,25 @@
     <body>
         <div class="navbar navbar-inverse navbar-static-top">
             <div class="container">
-                <a id="menu-toggle" class="navbar-brand"  ><i id="toggle-sidebar-icon" class="fa fa-book"></i></a>
-                <a href="@Url.Action("Index", "Home")" title="buy it. read it. flip it." class="navbar-brand">Campus BookFlip</a>
+                <a id="menu-toggle" class="navbar-brand col-md-2"  ><i id="toggle-sidebar-icon" class="fa fa-book"></i></a>
+                <a href="@Url.Action("Index", "Home")" title="buy it. read it. flip it." class="navbar-brand col-md-2">Campus BookFlip</a>
                 <a class="navbar-brand"><small>buy it. read it. flip it.</small></a>
-                <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse" onclick="$('#sidebar-wrapper').toggleClass('shift-down')">
+                
+                <button class="navbar-toggle" style="float:right" data-toggle="collapse" data-target=".navHeaderCollapse" onclick="$('#sidebar-wrapper').toggleClass('shift-down')">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                <a class="btn btn-xs btn-primary navbar-brand" style="float:right; margin-left:20px; line-height:0px; color:lightgray; text-shadow:1px 1px 7px #111; margin-top:10px;" role="button">Login&nbsp&nbsp|&nbsp&nbspRegister</a>
                 <div class="collapse navbar-collapse navHeaderCollapse">
+                    
                     @Html.Action("NavbarHelper", "Home")
                 </div>
+                
             </div>
         </div>
         <div id="wrapper">
-            <div id="sidebar-wrapper"><!--START OF SIDEBAR -->
+@*            <div id="sidebar-wrapper"><!--START OF SIDEBAR -->
                 <ul class="sidebar-nav">
                   <li class="sidebar-brand"><a href="#">Start Bootstrap</a></li>
                   <li><a href="#">Dashboard</a></li>
@@ -44,12 +48,12 @@
                   <li><a href="#">Services</a></li>
                   <li><a href="#">Contact</a></li>
                 </ul>
-            </div><!--END OF SIDEBAR -->
+            </div><!--END OF SIDEBAR -->*@
             <div id="page-content-wrapper">
                 <div class="page-content inset">
                     <div id="sidebar-active-overlay">
                         <div id="bootstrap-wrap">
-                            <div class="container" id="featured-section">
+                            <div id="featured-section">
                                 @RenderSection("featured", required: false)
                             </div>
                             <div class="container">
