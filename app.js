@@ -8,15 +8,15 @@ module.exports = function () {
     var dbConfig = require('./config/db');
     var mongoose = require('mongoose');
     mongoose.connect(dbConfig.url);
-    
+
 
     // passport config
     var passport = require('passport');
     var expressSession = require('express-session');
-    app.use(expressSession({ secret: 'mySecretKey' }));
+    app.use(expressSession({ secret: 'com.campusbookflip.expressSession' }));
     app.use(passport.initialize());
     app.use(passport.session());
-    /*var User = require('./schemas/User');
+    /*var User = require('./models/User');
     passport.serializeUser(function(user, done) {
         done(null, user._id);
     });
@@ -26,17 +26,17 @@ module.exports = function () {
             done(err, user);
         });
     });*/
-    
+
     var path = require('path');
     var favicon = require('serve-favicon');
     var logger = require('morgan');
     var cookieParser = require('cookie-parser');
     var bodyParser = require('body-parser');
 
-    
+
     //var users = require('./controllers/users');
 
-    
+
 
 
 
@@ -60,9 +60,12 @@ module.exports = function () {
     initPassport(passport);
 
     var controllers = require('./controllers/index')(passport);
+    var usersRoute = require('./controllers/users');
+    var api = require('./controllers/api/api');
 
     app.use('/', controllers);
-    //app.use('/users', users());
+    app.use('/users', usersRoute());
+    app.use('/api', api);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
@@ -96,4 +99,3 @@ module.exports = function () {
     });
     return app;
 }
-

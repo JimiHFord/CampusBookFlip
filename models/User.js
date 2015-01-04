@@ -1,9 +1,10 @@
 var mongoose = require('mongoose');
+var model;
 
 try {
-	module.exports = mongoose.model('User');
+	model = mongoose.model('User');
 } catch (err) {
-	module.exports = mongoose.model('User', {
+	model = mongoose.model('User', {
 		username: String,
 		password: String,
 		email: String,
@@ -11,3 +12,5 @@ try {
 		address: String
 	});
 }
+
+module.exports = model;
