@@ -6,8 +6,7 @@ var express = require('express'),
     Book = require('../../models/Book');
 
 function findByIsbn(isbn, callback) {
-  console.log('isbn: ',isbn);
-  Book.findOne({'volumeInfo.industryIdentifiers.identifier': isbn }, callback);
+  Book.findOne({'volumeInfo.industryIdentifiers.identifier': { $in : isbn } }, callback);
 }
 
 // TODO: fix error handling - it's not working
@@ -41,11 +40,15 @@ function handleQuery(req, res, next) {
               });
               returnBooks.push(book);
             } else {
+              console.log('ignoring duplicate');
               returnBooks.push(dbBook);
             }
             callback();
           });
         }, function(err) {
+          if(err) {
+            throw err;
+          }
           res.json(returnBooks);
         });
       }
@@ -64,7 +67,7 @@ router.get('/test/:isbn?', function(req, res) {
   if(isbn == null) {
     res.json(new Book());
   } else {
-    findByIsbn(isbn, function(err, book) {
+    findByIsbn([isbn], function(err, book) {
       if(!err) {
         if(book) {
           res.json(book);
