@@ -768,7 +768,7 @@ ul.social-buttons li a:active {
     outline: 0;
 }
 
-.portfolio-modal .modal-content {
+.custom-front-page-modal:not(.preserve-formatting-modal) .modal-content {
     padding: 100px 0;
     min-height: 100%;
     border: 0;
@@ -779,32 +779,32 @@ ul.social-buttons li a:active {
     box-shadow: none;
 }
 
-.portfolio-modal .modal-content h2 {
+.custom-front-page-modal:not(.preserve-formatting-modal) .modal-content h2 {
     margin-bottom: 15px;
     font-size: 3em;
 }
 
-.portfolio-modal .modal-content p {
+.custom-front-page-modal:not(.preserve-formatting-modal) .modal-content p {
     margin-bottom: 30px;
 }
 
-.portfolio-modal .modal-content p.item-intro {
+.custom-front-page-modal:not(.preserve-formatting-modal) .modal-content p.item-intro {
     margin: 20px 0 30px;
     font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 16px;
     font-style: italic;
 }
 
-.portfolio-modal .modal-content ul.list-inline {
+.custom-front-page-modal:not(.preserve-formatting-modal) .modal-content ul.list-inline {
     margin-top: 0;
     margin-bottom: 30px;
 }
 
-.portfolio-modal .modal-content img {
+.custom-front-page-modal:not(.preserve-formatting-modal) .modal-content img {
     margin-bottom: 30px;
 }
 
-.portfolio-modal .close-modal {
+.custom-front-page-modal .close-modal {
     position: absolute;
     top: 25px;
     right: 25px;
@@ -814,11 +814,11 @@ ul.social-buttons li a:active {
     cursor: pointer;
 }
 
-.portfolio-modal .close-modal:hover {
+.custom-front-page-modal .close-modal:hover {
     opacity: .3;
 }
 
-.portfolio-modal .close-modal .lr {
+.custom-front-page-modal .close-modal .lr {
     z-index: 1051;
     width: 1px;
     height: 75px;
@@ -829,7 +829,7 @@ ul.social-buttons li a:active {
     transform: rotate(45deg);
 }
 
-.portfolio-modal .close-modal .lr .rl {
+.custom-front-page-modal .close-modal .lr .rl {
     z-index: 1052;
     width: 1px;
     height: 75px;
@@ -839,7 +839,7 @@ ul.social-buttons li a:active {
     transform: rotate(90deg);
 }
 
-.portfolio-modal .modal-backdrop {
+.custom-front-page-modal .modal-backdrop {
     display: none;
     opacity: 0;
 }
