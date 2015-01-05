@@ -16,16 +16,7 @@ module.exports = function () {
     app.use(expressSession({ secret: 'com.campusbookflip.expressSession' }));
     app.use(passport.initialize());
     app.use(passport.session());
-    /*var User = require('./models/User');
-    passport.serializeUser(function(user, done) {
-        done(null, user._id);
-    });
-
-    passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
-            done(err, user);
-        });
-    });*/
+    
 
     var path = require('path');
     var favicon = require('serve-favicon');
