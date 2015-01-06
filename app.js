@@ -16,7 +16,7 @@ module.exports = function () {
     app.use(expressSession({ secret: 'com.campusbookflip.expressSession' }));
     app.use(passport.initialize());
     app.use(passport.session());
-    
+
 
     var path = require('path');
     var favicon = require('serve-favicon');

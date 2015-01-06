@@ -17,7 +17,11 @@ module.exports = function (passport) {
 	/* GET login page. */
 	router.get('/', function(req, res) {
     	// Display the Login page with any flash message, if any
-		res.render('index', { message: req.flash('message'), title: 'Campus BookFlip' });
+		res.render('index', {
+      message: req.flash('message'),
+      title: 'Campus BookFlip',
+      layout: false
+    });
 	});
 
 	/* Handle Login POST */
