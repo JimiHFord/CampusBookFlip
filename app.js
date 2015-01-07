@@ -7,7 +7,7 @@ module.exports = function () {
     // database config
     var dbConfig = require('./config/db');
     var mongoose = require('mongoose');
-    mongoose.connect(dbConfig.url);
+    mongoose.connect(dbConfig.uri);
 
 
     // passport config
