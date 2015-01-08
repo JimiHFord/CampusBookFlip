@@ -25,7 +25,8 @@ module.exports = function () {
     var bodyParser = require('body-parser');
 
 
-    //var users = require('./controllers/users');
+    // middleware
+    var lessMiddleware = require('less-middleware');
 
 
 
@@ -36,11 +37,17 @@ module.exports = function () {
     app.set('view engine', 'hbs');
 
     // uncomment after placing your favicon in /public
-    //app.use(favicon(__dirname + '/public/favicon.ico'));
+    app.use(favicon(__dirname + '/public/favicon.ico'));
     app.use(logger('dev'));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(cookieParser());
+    if (app.get('env') === 'development') {
+      app.use(lessMiddleware('/less', {
+        dest: '/css',
+        pathRoot: path.join(__dirname, 'public')
+      }));
+    }
     app.use(express.static(path.join(__dirname, 'public')));
 
     var flash = require('connect-flash');
