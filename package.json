@@ -1,6 +1,6 @@
 {
   "name": "CampusBookFlip",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
@@ -23,6 +23,11 @@
     "underscore": "~1.7.0",
     "async": "~0.9.0",
     "mongodb-uri": "~0.9.7",
-    "less-middleware": "~1.0.4"
+    "less-middleware": "~1.0.4",
+    "express-validator": "~2.8.0",
+    "passport-facebook": "~1.0.3",
+    "passport-twitter": "~1.0.2",
+    "passport-github": "~0.1.5",
+    "passport-google": "~0.3.0"
   }
 }

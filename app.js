@@ -35,6 +35,8 @@ module.exports = function () {
     // view engine setup
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'hbs');
+    var hbs = require('hbs');
+    hbs.registerPartials(__dirname + '/views/partials');
 
     // uncomment after placing your favicon in /public
     app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -59,11 +61,20 @@ module.exports = function () {
 
     var controllers = require('./controllers/index')(passport);
     var usersRoute = require('./controllers/users');
+    var auth = require('./controllers/auth');
     var api = require('./controllers/api/api');
 
     app.use('/', controllers);
     app.use('/users', usersRoute());
     app.use('/api', api);
+    app.use('/auth', auth.methods(passport));
+    app.get('/logout', function(req, res) {
+      req.logout();
+      res.redirect('/');
+    });
+    app.get('/account', auth.ensureAuthenticated, function(req, res) {
+      res.json({ user: req.user });
+    });
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {

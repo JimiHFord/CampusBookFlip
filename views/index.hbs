@@ -3,6 +3,7 @@
 
 <head>
 
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,10 +32,20 @@
   <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
   <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
-
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 </head>
 
 <body id="page-top" class="index">
+  {{> FB_sdk appID}}
+  <div id="fb-root"></div>
+  <!--<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=116447055231811&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>-->
 
   <!-- Navigation -->
   <nav class="navbar navbar-default navbar-fixed-top">
@@ -87,6 +98,7 @@
       <a href="#nutshell" class="page-scroll btn btn-xl">Tell Me More</a>
     </div>
   </div>
+
 </header>
 
 <!-- Nutshell Section -->
@@ -212,6 +224,21 @@
                 </div>
                 <div class="timeline-body">
                   <p class="text-muted">Show your support for us by telling your friends about this awesome service built by college kids for college kids. Be sure to mention that it's free!</p>
+                  <p>
+                    <div class="pull-right">
+                        <div class="fb-like"
+                        data-href="http://campusbookflip.com"
+                        data-layout="button_count"
+                        data-action="like"
+                        data-show-faces="false"
+                        data-share="true"></div>
+
+                        <a href="https://twitter.com/share"
+                        class="twitter-share-button"
+                        data-text="Save money on textbooks! Buy and sell with friends on campus and cut out the middle man!"
+                        data-related="CampusBookFlip">Tweet</a>
+                    </div>
+                  </p>
                 </div>
               </div>
             </li>
@@ -234,7 +261,7 @@
         <div class="row">
           <div class="col-lg-12 text-center">
             <h2 class="section-heading">Why?</h2>
-            <h3 class="section-subheading text-muted">What makes us different?</h3>
+            <h3 class="section-subheading text-muted">What makes us different? Click on a logo below to find out.</h3>
           </div>
         </div>
         <div class="row">
@@ -285,21 +312,34 @@
         </div>
         <div class="v-space-8">&nbsp;</div>
         <div clas="row">
-          <div class="col-lg-12 text-center">
+          <div class="col-lg-10 col-lg-offset-1 text-center">
             <h2 class="section-heading">Your College Bookstore</h2>
             <h3 class="section-subheading text-muted"></h3>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-8 col-md-offset-2 text-center">
+          <div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
             <p class="text-muted">
-              If you haven't guessed it already, we strive to eliminate the middleman.
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you haven't guessed it already, we strive to eliminate the middleman.
               Your college bookstore is just another unnecessary intermediate player in a game college students are more than capable of handling on their own.
               Many times, you'll be lucky to get back 50% of what you originally paid if you bought your books new, and you'll get even less for books that you bought used.
               Isn't it frustrating that they're just going to turn around and sell them for their full used condition price?
+              It's not hard to figure out that you're not maximizing your savings if someone is profiting off of you.
             </p>
+            <div class="v-space-1">&nbsp;</div>
             <p class="text-muted">
-              Campus BookFlip...
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Why do college bookstores offer to buy your books back from you?
+              It is because other students on your campus will need them for their upcoming classes!
+              Remember that part in School of Rock where Jack Black is <a href="https://www.youtube.com/watch?v=37oJqWp4rJM">teaching his class about The Man?</a>
+              Well it's time for you to stop wasting your money on textbooks and start stickin' it to The Man!
+            </p>
+          </div>
+        </div>
+        <div class="v-space-5">&nbsp;</div>
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2 text-center">
+            <p>
+              <a class="page-scroll btn btn-lg btn-primary" href="#signup">Sign Me Up, Scotty!</a>
             </p>
           </div>
         </div>
@@ -355,10 +395,6 @@
   <!-- <button type="submit" class="btn btn-xl">Send Message</button> -->
   <!-- <h2 class="section-heading">Registration Opening Soon</h2> -->
 </div>
-</div>
-</div>
-</div>
-</div>
 </section>
 
 <footer>
@@ -371,10 +407,12 @@
         <ul class="list-inline social-buttons">
           <li><a href="http://twitter.com/campusbookflip"><i class="fa fa-twitter"></i></a>
           </li>
-          <!--<li><a href="http://facebook.com/campusbookflip"><i class="fa fa-facebook"></i></a>
+          <li><a href="http://facebook.com/campusbookflip"><i class="fa fa-facebook"></i></a>
           </li>
-          <li><a href="http://youtube.com/campusbookflip"><i class="fa fa-youtube"></i></a>
+          <!--<li><a href="http://youtube.com/campusbookflip"><i class="fa fa-youtube"></i></a>
           </li>-->
+          <li><a href="http://google.com/+Campusbookflipit"><i class="fa fa-google-plus"></i></a>
+          </li>
         </ul>
       </div>
       <div class="col-md-4">

@@ -24,6 +24,11 @@ module.exports = function(passport){
                         console.log('Invalid Password');
                         return done(null, false, req.flash('message', 'Invalid Password')); // redirect back to login page
                     }
+										// User correctly signed in, but hasn't verified email yet
+										if (!user.verifiedEmail) {
+											console.log('User has not verified email address.');
+											return done(null, false, req.flash('message', 'You must verify your email'))
+										}
                     // User and password both match, return user from done method
                     // which will be treated like success
                     return done(null, user);
