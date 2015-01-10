@@ -1,6 +1,7 @@
  var express = require('express');
 var router = express.Router();
 var users = require('./users');
+var facebook = require('../config/facebook');
 
 var isAuthenticated = function (req, res, next) {
 	// if user is authenticated in the session, call the next() to call the next request handler
@@ -20,6 +21,7 @@ module.exports = function (passport) {
 		res.render('index', {
       message: req.flash('message'),
       title: 'Campus BookFlip',
+      appID: facebook.clientID,
       layout: false
     });
 	});
