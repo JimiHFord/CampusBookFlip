@@ -1,10 +1,9 @@
-var mongoose = require('mongoose');
-var model;
+var mongoose = require('mongoose'),
+		Schema = mongoose.Schema;
 
-try {
-	model = mongoose.model('User');
-} catch (err) {
-	model = mongoose.model('User', {
+
+module.exports = function() {
+	var schema = new Schema({
 		oauthProviders: [{
 			oauthID: Number,
 			provider: String
@@ -15,8 +14,8 @@ try {
 		email: String,
 		gender: String,
 		address: String,
-		colleges: [Number] // Institution_ID
-	});
-}
-
-module.exports = model;
+		colleges: [Number], // Institution_ID
+		needsColleges: Boolean
+	}, {collection: 'User'});
+	mongoose.model('User', schema);
+};

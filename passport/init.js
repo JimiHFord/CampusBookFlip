@@ -1,6 +1,7 @@
 var login = require('./login');
 var signup = require('./signup');
-var User = require('../models/User');
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var GithubStrategy = require('passport-github').Strategy;
@@ -36,6 +37,7 @@ module.exports = function(passport){
       // process.nextTick(function() {
       //   return done(null, profile);
       // })
+      console.log(profile);
       User.findOne({
           oauthProviders: {
             oauthID: profile.id
@@ -50,16 +52,19 @@ module.exports = function(passport){
               provider: 'Facebook',
               oauthID: profile.id
             }],
-            name: profile.displayName
+            name: profile.displayName,
+            needsColleges: true
           });
-          user.save(function(err) {
-            if(err) {
-              console.log(err);
-            } else {
-              console.log('saving user...');
-              done(null, user);
-            }
-          });
+          // We have to register colleges before we save the user
+          done(null, user);
+          // user.save(function(err) {
+          //   if(err) {
+          //     console.log(err);
+          //   } else {
+          //     console.log('saving user...');
+          //     done(null, user);
+          //   }
+          // });
         }
       });
     }));
