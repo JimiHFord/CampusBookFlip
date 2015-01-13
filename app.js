@@ -9,11 +9,15 @@ module.exports = function () {
     var mongoose = require('mongoose');
     mongoose.connect(dbConfig.uri);
 
+    // register models
+    require('./models/Initialize')();
+
 
     // passport config
     var passport = require('passport');
     var expressSession = require('express-session');
-    app.use(expressSession({ secret: 'com.campusbookflip.expressSession' }));
+    var expressSessionConfig = require('./config/expressSession');
+    app.use(expressSession(expressSessionConfig));
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -61,7 +65,7 @@ module.exports = function () {
 
     var controllers = require('./controllers/index')(passport);
     var usersRoute = require('./controllers/users');
-    var auth = require('./controllers/auth');
+    var auth = require('./passport/authController');
     var api = require('./controllers/api/api');
 
     app.use('/', controllers);
