@@ -11,9 +11,41 @@ function findByCaseInsensitiveName(name, callback) {
     Institution_Name: {
       $regex: '^' + name,
       $options: 'i'
-    }
+    },
+    Institution_Active: true
   }, callback);
 };
+
+function findByStateAndCity(state, city, callback) {
+  var state = state.toUpperCase();
+  College.find({
+    Institution_State: state,
+    Institution_City: city,
+    Institution_Active: true
+  }, function(err, colleges) {
+    if(err) {
+      return callback(err);
+    }
+    colleges = _.sortBy(colleges, function(obj) {
+      return obj.Institution_Name;
+    });
+    callback(null, colleges);
+  });
+}
+
+exports.findByStateAndCity = findByStateAndCity;
+
+function stripCollegeAttributes(colleges) {
+  return _.map(colleges, function(obj) {
+    return {
+      name: obj.Institution_Name,
+      id: obj.Institution_ID,
+      web: obj.Institution_Web_Address
+    }
+  });
+}
+
+exports.stripCollegeAttributes = stripCollegeAttributes;
 
 router.get('/named/:name?', function(req, res) {
   var name = req.param('name', null);
@@ -27,14 +59,21 @@ router.get('/named/:name?', function(req, res) {
     if(err) {
       throw err;
     }
-    var result = _.map(colleges, function(obj) {
-      return {
-        Institution_Name: obj.Institution_Name,
-        Institution_ID: obj.Institution_ID
-      };
-    }); // result
+    var result = stripCollegeAttributes(colleges);
     res.json(result);
   });
 });
 
-module.exports = router;
+router.get('/:state/:city', function(req, res) {
+  var state = req.param('state'),
+      city  = req.param('city');
+  findByStateAndCity(state, city, function(err, colleges) {
+    if(err) {
+      return res.json(err);
+    }
+    var result = stripCollegeAttributes(colleges);
+    res.json(result);
+  });
+})
+
+exports.router = router;

@@ -9,7 +9,8 @@ module.exports = function() {
 			provider: String
 		}],
 		username: String,
-		name: String,
+		firstName: String,
+		lastName: String,
 		password: String,
 		email: String,
 		gender: String,
