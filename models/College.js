@@ -10,7 +10,8 @@ module.exports = function() {
     Institution_State: String,
     Institution_Zip: String,
     Institution_Phone: String,
-    Institution_Web_Address: String
+    Institution_Web_Address: String,
+    Institution_Active: Boolean
   }, {collection: 'College'});
   mongoose.model('College', schema);
 };

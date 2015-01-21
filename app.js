@@ -67,6 +67,7 @@ module.exports = function () {
     var usersRoute = require('./controllers/users');
     var auth = require('./passport/authController');
     var api = require('./controllers/api/api');
+    var account = require('./controllers/account');
 
     app.use('/', controllers);
     app.use('/users', usersRoute());
@@ -76,9 +77,7 @@ module.exports = function () {
       req.logout();
       res.redirect('/');
     });
-    app.get('/account', auth.ensureAuthenticated, function(req, res) {
-      res.json({ user: req.user });
-    });
+    app.use('/account', account);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
