@@ -62,12 +62,9 @@
     });
   });
 
-  college.on('change', function(ev) {
-
-  });
 
   function htmlForColleges(colleges) {
-    var html = '<option value="">Select college...</option>';
+    var html = colleges.length === 1 ? '' : '<option value="">Select college...</option>';
     if(colleges) {
       for(var i = 0; i < colleges.length; i++) {
         var obj = colleges[i];

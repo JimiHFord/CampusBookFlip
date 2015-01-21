@@ -16,19 +16,18 @@ function prepUser(user) {
 router.route('/').get(function(req, res) {
   console.log('USER:', req.user);
   var user = prepUser(req.user || {});
-  var defaultState = 'AL';
-  geography.citiesInState(defaultState, function(err, cities) {
-    var defaultCity = cities.length ? cities[0] : 'Albertville';
-    collegesController.findByStateAndCity(defaultState, defaultCity, function(err, colleges) {
-      colleges = collegesController.stripCollegeAttributes(colleges);
-      res.render('account/additional-information', {
-        user: user,
-        states: states,
-        cities: cities,
-        colleges: colleges
-      });
-    });
-  })
+  // geography.citiesInState(defaultState, function(err, cities) {
+  //   collegesController.findByStateAndCity(defaultState, defaultCity, function(err, colleges) {
+  //     colleges = collegesController.stripCollegeAttributes(colleges);
+  //
+  //   });
+  // });
+  res.render('account/additional-information', {
+    user: user,
+    states: states,
+    // cities: cities,
+    // colleges: colleges
+  });
 }).post(function(req, res) {
   console.log(req.body);
   var user = prepUser(req.user || {});
