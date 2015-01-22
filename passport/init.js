@@ -65,19 +65,15 @@ module.exports = function(passport){
       clientSecret: oauth.facebook.clientSecret,
       callbackURL: oauth.facebook.callbackURL
     }, function(accessToken, refreshToken, profile, done) {
-      // process.nextTick(function() {
-      //   return done(null, profile);
-      // })
-      // console.log(profile);
       User.findOne({
-          oauthProviders: {
-            oauthID: profile.id
-          }
+          "oauthProviders.oauthID": profile.id
         }, function(err, user) {
         if(err) { console.log(err); }
         if(!err && user) {
+          console.log('found user', user);
           done(null, user);
         } else {
+          console.log('creating new user');
           var user = new User({
             oauthProviders: [{
               provider: oauth.facebook.providerName,
@@ -110,7 +106,7 @@ module.exports = function(passport){
       // process.nextTick(function() {
       //   return done(null, profile);
       // })
-      console.log(profile);
+      // console.log(profile);
       // User.findOne({
       //   oauthProviders: {
       //     oauthID: profile.id
