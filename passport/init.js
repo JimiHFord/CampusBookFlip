@@ -11,42 +11,52 @@ var oauth = require('../config/oauth');
 module.exports = function(passport){
 
 	// Passport needs to be able to serialize and deserialize users to support persistent login sessions
-    passport.serializeUser(function(user, done) {
-        var serialized = {
-          _id: user._id,
-          oauthProviders: user.oauthProviders,
-          username: user.username
-        };
-        // console.log('serializing user: ', user);
-        // done(null, user._id);
-        done(null, serialized);
-    });
+    // passport.serializeUser(function(user, done) {
+    //     var serialized = {
+    //       _id: user._id,
+    //       oauthProviders: user.oauthProviders,
+    //       username: user.username
+    //     };
+    //     // console.log('serializing user: ', user);
+    //     // done(null, user._id);
+    //     done(null, serialized);
+    // });
     // TODO: both serialize and deserialize are broken
-    passport.deserializeUser(function(serialized, done) {
+    // passport.deserializeUser(function(serialized, done) {
+    //
+    //     console.log(serialized);
+    //     if(serialized.username) {
+    //       User.findOne({
+    //           username: serialized.username
+    //         }, function(err, user) {
+    //           // console.log('deserializing user:',user);
+    //           if(!err) {
+    //             done(null, user);
+    //           } else {
+    //             done(err, null);
+    //           }
+    //       });
+    //     } else {
+    //       User.findOne({
+    //         oauthProviders: user.oauthProviders
+    //       }, function(err, user) {
+    //         if(!err) {
+    //           done(null, user);
+    //         } else {
+    //           done(err, null);
+    //         }
+    //       });
+    //     }
+    // });
 
-        // console.log(serialized);
-        if(serialized.username) {
-          User.findOne({
-              username: serialized.username
-            }, function(err, user) {
-              // console.log('deserializing user:',user);
-              if(!err) {
-                done(null, user);
-              } else {
-                done(err, null);
-              }
-          });
-        } else {
-          User.findOne({
-            oauthProviders: user.oauthProviders
-          }, function(err, user) {
-            if(!err) {
-              done(null, user);
-            } else {
-              done(err, null);
-            }
-          });
-        }
+    passport.serializeUser(function(user, done) {
+      done(null, user._id);
+    });
+
+    passport.deserializeUser(function(id, done) {
+      User.findById(id, function(err, user) {
+        done(err, user);
+      });
     });
 
     // Add more Strategies here
