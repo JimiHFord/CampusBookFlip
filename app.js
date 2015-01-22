@@ -10,14 +10,16 @@ module.exports = function () {
     mongoose.connect(dbConfig.uri);
 
     // register models
-    require('./models/Initialize')();
-
+    require('./models/initialize')();
 
     // passport config
     var passport = require('passport');
-    var expressSession = require('express-session');
-    var expressSessionConfig = require('./config/expressSession');
-    app.use(expressSession(expressSessionConfig));
+    var session = require('express-session');
+    var sessionConfig = require('./config/session')({
+      mongoose: mongoose,
+      session: session
+    });
+    app.use(session(sessionConfig));
     app.use(passport.initialize());
     app.use(passport.session());
 
