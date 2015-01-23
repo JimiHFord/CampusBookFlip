@@ -106,39 +106,31 @@ module.exports = function(passport){
       // process.nextTick(function() {
       //   return done(null, profile);
       // })
-      // console.log(profile);
-      // User.findOne({
-      //   oauthProviders: {
-      //     oauthID: profile.id
-      //   }
-      // }, function(err, user) {
-      //   if(err) { console.log(err); }
-      //   if(!err && user) {
-      //     done(null, user);
-      //   } else {
-      //     var user = new User({
-      //       oauthProviders: [{
-      //         provider: oauth.facebook.providerName,
-      //         oauthID: profile.id
-      //       }],
-      //       username: profile.username,
-      //       firstName: profile._json.first_name,
-      //       lastName: profile._json.last_name,
-      //       email: profile._json.email,
-      //       // We have to register colleges before we allow other permissions
-      //       needsColleges: true
-      //     });
-      //
-      //     user.save(function(err) {
-      //       if(err) {
-      //         console.log(err);
-      //       } else {
-      //         done(null, user);
-      //       }
-      //     });
-      //   }
-      // });
-      done(profile);
+      console.log(profile);
+      // id: '1496893314',
+      // username: 'CampusBookFlip',
+      // displayName: 'Campus BookFlip',
+      User.findOne({
+        "oauthProviders.oauthID": profile.id
+      }, function(err, user) {
+        if(err) { console.log(err); }
+        if(!err && user) {
+          done(null, user);
+        } else {
+          var user = new User({
+            oauthProviders: [{
+              provider: oauth.twitter.providerName,
+              oauthID: profile.id
+            }],
+            username: profile.username,
+            needsColleges: true
+          });
+          user.save(function(err) {
+            if(err) { throw err; }
+            done(null, user);
+          })
+        }
+      });
     }));
 
 
