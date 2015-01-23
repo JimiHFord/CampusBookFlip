@@ -4,7 +4,7 @@ module.exports = function () {
     var express = require('express');
     var app = express();
 
-    // database config
+    // database config and connection
     var dbConfig = require('./config/db');
     var mongoose = require('mongoose');
     mongoose.connect(dbConfig.uri);
@@ -14,11 +14,15 @@ module.exports = function () {
 
     // passport config
     var passport = require('passport');
+    // session data
     var session = require('express-session');
+    // configure session - reuse mongoose connection for data store
     var sessionConfig = require('./config/session')({
       mongoose: mongoose,
       session: session
     });
+
+    
     app.use(session(sessionConfig));
     app.use(passport.initialize());
     app.use(passport.session());
@@ -49,7 +53,7 @@ module.exports = function () {
     app.use(logger('dev'));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(cookieParser());
+    app.use(cookieParser(sessionConfig.secret));
     if (app.get('env') === 'development') {
       app.use(lessMiddleware('/less', {
         dest: '/css',
@@ -59,7 +63,7 @@ module.exports = function () {
     app.use(express.static(path.join(__dirname, 'public')));
 
     var flash = require('connect-flash');
-    app.use(flash());
+    app.use(flash(sessionConfig.secret));
 
     // Init passport
     var initPassport = require('./passport/init');

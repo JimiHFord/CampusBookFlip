@@ -11,43 +11,6 @@ var oauth = require('../config/oauth');
 module.exports = function(passport){
 
 	// Passport needs to be able to serialize and deserialize users to support persistent login sessions
-    // passport.serializeUser(function(user, done) {
-    //     var serialized = {
-    //       _id: user._id,
-    //       oauthProviders: user.oauthProviders,
-    //       username: user.username
-    //     };
-    //     // console.log('serializing user: ', user);
-    //     // done(null, user._id);
-    //     done(null, serialized);
-    // });
-    // TODO: both serialize and deserialize are broken
-    // passport.deserializeUser(function(serialized, done) {
-    //
-    //     console.log(serialized);
-    //     if(serialized.username) {
-    //       User.findOne({
-    //           username: serialized.username
-    //         }, function(err, user) {
-    //           // console.log('deserializing user:',user);
-    //           if(!err) {
-    //             done(null, user);
-    //           } else {
-    //             done(err, null);
-    //           }
-    //       });
-    //     } else {
-    //       User.findOne({
-    //         oauthProviders: user.oauthProviders
-    //       }, function(err, user) {
-    //         if(!err) {
-    //           done(null, user);
-    //         } else {
-    //           done(err, null);
-    //         }
-    //       });
-    //     }
-    // });
 
     passport.serializeUser(function(user, done) {
       done(null, user._id);
@@ -63,74 +26,108 @@ module.exports = function(passport){
     passport.use(new FacebookStrategy({
       clientID: oauth.facebook.clientID,
       clientSecret: oauth.facebook.clientSecret,
-      callbackURL: oauth.facebook.callbackURL
-    }, function(accessToken, refreshToken, profile, done) {
-      User.findOne({
-          "oauthProviders.oauthID": profile.id
-        }, function(err, user) {
-        if(err) { console.log(err); }
-        if(!err && user) {
-          console.log('found user', user);
-          done(null, user);
-        } else {
-          console.log('creating new user');
-          var user = new User({
-            oauthProviders: [{
-              provider: oauth.facebook.providerName,
-              oauthID: profile.id
-            }],
-            username: profile.username,
-            firstName: profile._json.first_name,
-            lastName: profile._json.last_name,
-            email: profile._json.email,
-            // We have to register colleges before we allow other permissions
-            needsColleges: true
-          });
+      callbackURL: oauth.facebook.callbackURL,
+      passReqToCallback: true // this populates the "req" below
+    }, function(req, accessToken, refreshToken, profile, done) {
 
-          user.save(function(err) {
-            if(err) {
-              console.log(err);
-            } else {
-              done(null, user);
-            }
-          });
-        }
-      });
+      // console.log('accessToken',accessToken);
+      // console.log('refreshToken',refreshToken);
+      console.log('user:',req.user);
+      console.log('account:',req.account);
+      console.log('req authenticated? ', req.isAuthenticated());
+      if(!req.user) {
+        // create or login
+        User.findOne({
+          "facebook.id": profile.id
+        }, function(err, user) {
+          if(err) { throw err; }
+          if(user) {
+            done(null, user);
+          } else {
+            var user = new User({
+              facebook: {
+                id: profile.id,
+                token: accessToken
+              },
+              username: profile.username,
+              firstName: profile._json.first_name,
+              lastName: profile._json.last_name,
+              email: profile._json.email,
+              // We have to register colleges before we allow other permissions
+              needsColleges: true
+            });
+
+            user.save(function(err) {
+              if(err) {
+                console.log(err);
+              } else {
+                done(null, user);
+              }
+            });
+          }
+        });
+      } else {
+        // link existing profile
+        var user = req.user;
+        user.facebook = {
+          id: pofile.id,
+          token: accessToken
+        };
+        user.save(function(err) {
+          if(err) { throw err; }
+          done(null, req.user); //http://passportjs.org/guide/authorize/
+        });
+      }
+
     }));
 
     passport.use(new TwitterStrategy({
       consumerKey: oauth.twitter.consumerKey,
       consumerSecret: oauth.twitter.consumerSecret,
-      callbackURL: oauth.twitter.callbackURL
-    }, function(token, tokenSecret, profile, done) {
-      // process.nextTick(function() {
-      //   return done(null, profile);
-      // })
-      console.log(profile);
-      // id: '1496893314',
-      // username: 'CampusBookFlip',
-      // displayName: 'Campus BookFlip',
-      User.findOne({
-        "oauthProviders.oauthID": profile.id
-      }, function(err, user) {
-        if(err) { console.log(err); }
-        if(!err && user) {
-          done(null, user);
-        } else {
-          var user = new User({
-            oauthProviders: [{
-              provider: oauth.twitter.providerName,
-              oauthID: profile.id
-            }],
-            username: profile.username,
-            needsColleges: true
-          });
-          user.save(function(err) {
-            if(err) { throw err; }
+      callbackURL: oauth.twitter.callbackURL,
+      passReqToCallback: true // this populates the "req" below
+    }, function(req, token, tokenSecret, profile, done) {
+      // console.log('req',req);
+      // console.log('token',token);
+      // console.log('tokenSecret',tokenSecret);
+      console.log('user:',req.user);
+      console.log('account:',req.account);
+      console.log('req authenticated? ', req.isAuthenticated());
+      if(!req.user) {
+        // create or login
+        User.findOne({
+          "twitter.id": profile.id
+        }, function(err, user) {
+          if(err) { console.log(err); }
+          if(!err && user) {
             done(null, user);
-          })
-        }
-      });
+          } else {
+            var user = new User({
+              twitter: {
+                id: profile.id,
+                token: token
+              },
+              username: profile.username,
+              needsColleges: true
+            });
+            user.save(function(err) {
+              if(err) { throw err; }
+              done(null, user);
+            })
+          }
+        });
+      } else {
+        // link existing
+        var user = req.user;
+        user.twitter = {
+          id: pofile.id,
+          token: token
+        };
+        user.save(function(err) {
+          if(err) { throw err; }
+          done(null, req.user);
+        });
+      }
     }));
 
 
