@@ -4,10 +4,10 @@ var mongoose = require('mongoose'),
 
 module.exports = function() {
 	var schema = new Schema({
-		oauthProviders: [{
-			oauthID: Number,
-			provider: String
-		}],
+		// oauthProviders: [{
+		// 	oauthID: Number,
+		// 	provider: String
+		// }],
 		username: String,
 		firstName: String,
 		lastName: String,
@@ -16,7 +16,19 @@ module.exports = function() {
 		gender: String,
 		address: String,
 		colleges: [Number], // Institution_ID
-		needsColleges: Boolean
+		needsColleges: Boolean,
+		facebook: {
+			id: String,
+			token: String
+		},
+		twitter: {
+			id: String,
+			token: String
+		},
+		google: {
+			id: String,
+			token: String
+		}
 	}, {collection: 'User'});
 	mongoose.model('User', schema);
 };

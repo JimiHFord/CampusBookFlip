@@ -21,31 +21,47 @@ exports.ensureUnauthenticated = function (req, res, next) {
 
 exports.methods = function(passport) {
 
-  router.get('/facebook', passport.authenticate('facebook', {
-    scope: oauth.facebook.loginScope
-  }),
-    function(req, res) {
+  // router.get('/facebook', passport.authenticate('facebook', {
+  //   scope: oauth.facebook.loginScope
+  // }),
+  //   function(req, res) {
+  //
+  //   }
+  // );
 
+  router.get('/facebook', function(req, res, next) {
+    if(!req.user) {
+      passport.authenticate('facebook', {
+        scope: oauth.facebook.loginScope
+      })(req, res, next);
+    } else {
+      passport.authorize('facebook', {
+        scope: oauth.facebook.loginScope
+      })(req, res, next);
     }
-  );
+  });
 
   router.get('/facebook/callback', passport.authenticate('facebook', {
-    failureRedirect: '/' }),
-    function(req, res) {
-      // We have to collect additional information
-      res.redirect('/account/additional-information');
+    failureRedirect: '/',
+    successRedirect: '/account/additional-information'
+  }));
+
+  // router.get('/twitter', passport.authenticate('twitter'), function(req, res) {
+  //
+  // });
+
+  router.get('/twitter', function(req, res, next) {
+    if(!req.user) {
+      passport.authenticate('twitter')(req, res, next);
+    } else {
+      passport.authorize('twitter')(req, res, next);
     }
-  );
-
-  router.get('/twitter', passport.authenticate('twitter'), function(req, res) {
-
   });
 
   router.get('/twitter/callback', passport.authenticate('twitter', {
-    failureRedirect: '/' }), function(req,res) {
-      res.redirect('/account/additional-information');
-    }
-  );
+    failureRedirect: '/',
+    successRedirect: '/account/additional-information'
+  }));
 
   return router;
 };
