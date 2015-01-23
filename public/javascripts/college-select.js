@@ -128,4 +128,6 @@
       callback(null, cache[state]);
     }
   }
+
+  $('.form-additional-information').validate();
 }(jQuery));
