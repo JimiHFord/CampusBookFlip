@@ -3,8 +3,7 @@ var express = require('express'),
     gbooks = require('../../services/gbooks/gbooks'),
     // _ = require('underscore'),
     async = require('async'),
-    mongoose = require('mongoose'),
-    Book = mongoose.model('Book');
+    Book = require('../../models/Book');
 
 function findByIsbn(isbn, callback) {
   Book.findOne({'volumeInfo.industryIdentifiers.identifier': { $in : isbn } }, callback);
@@ -15,7 +14,7 @@ function handleQuery(req, res, next) {
   var query = req.param('query', 'null');
 
   gbooks.search(query, req.body, function(err, response, data) {
-    var returnBooks = [];
+    var returnBooks = []
     if(!err && response.statusCode == 200) {
       if(data && data.items) {
         async.each(data.items, function (book, callback) {
