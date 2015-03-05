@@ -1,6 +1,11 @@
 var express = require('express'),
 		router = express.Router(),
+<<<<<<< HEAD
 		Users = require('../models/User');
+=======
+		mongoose = require('mongoose'),
+		Users = mongoose.model('User');
+>>>>>>> feature/robustify-registration
 
 
 module.exports = function() {

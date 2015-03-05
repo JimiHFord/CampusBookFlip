@@ -1,22 +1,10 @@
 #!/usr/bin/env node
 
-var https = require('https');
-var fs = require('fs');
-var path = require('path');
-
-var key = fs.readFileSync(path.join(__dirname, 'ssl/ssl.key'));
-var cert = fs.readFileSync(path.join(__dirname, 'ssl/ssl.crt'));
-
 var debug = require('debug')('CampusBookFlip');
 var app = require('../app')();
 
 app.set('port', process.env.PORT || 3000);
 
-var server = https.createServer({
-  key: key,
-  cert: cert
-}, app).listen(app.get('port'));
-
-// var server = app.listen(app.get('port'), function() {
-//   debug('Express server listening on port ' + server.address().port);
-// });
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
+});
