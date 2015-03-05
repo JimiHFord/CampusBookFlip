@@ -1,34 +1,22 @@
-var mongoose = require('mongoose'),
-		Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var model;
 
-
-module.exports = function() {
-	var schema = new Schema({
-		// oauthProviders: [{
-		// 	oauthID: Number,
-		// 	provider: String
-		// }],
+try {
+	model = mongoose.model('User');
+} catch (err) {
+	model = mongoose.model('User', {
+		oauthProviders: [{
+			oauthID: Number,
+			provider: String
+		}],
 		username: String,
-		firstName: String,
-		lastName: String,
+		name: String,
 		password: String,
 		email: String,
 		gender: String,
 		address: String,
-		colleges: [Number], // Institution_ID
-		needsColleges: Boolean,
-		facebook: {
-			id: String,
-			token: String
-		},
-		twitter: {
-			id: String,
-			token: String
-		},
-		google: {
-			id: String,
-			token: String
-		}
-	}, {collection: 'User'});
-	mongoose.model('User', schema);
-};
+		colleges: [Number] // Institution_ID
+	});
+}
+
+module.exports = model;

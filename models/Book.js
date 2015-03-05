@@ -1,8 +1,10 @@
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var model;
 
-module.exports = function() {
-  var schema = new Schema({
+try {
+  model = mongoose.model('Book');
+} catch (err) {
+  model = mongoose.model('Book', {
     id: String,
     etag: String,
     selfLink: String,
@@ -86,6 +88,8 @@ module.exports = function() {
     searchInfo: {
       textSnippet: String
     },
-  }, { collection: 'Book'});
-  model = mongoose.model('Book', schema);
-};
+
+  });
+}
+
+module.exports = model;

@@ -1,8 +1,10 @@
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var model;
 
-module.exports = function() {
-  var schema = new Schema({
+try {
+  model = mongoose.model('College');
+} catch (err) {
+  model = mongoose.model('College', {
     Institution_ID: Number,
     Institution_Name: String,
     Institution_Address: String,
@@ -10,8 +12,8 @@ module.exports = function() {
     Institution_State: String,
     Institution_Zip: String,
     Institution_Phone: String,
-    Institution_Web_Address: String,
-    Institution_Active: Boolean
-  }, {collection: 'College'});
-  mongoose.model('College', schema);
-};
+    Institution_Web_Address: String
+  });
+}
+
+module.exports = model;
