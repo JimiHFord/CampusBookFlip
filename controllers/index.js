@@ -1,4 +1,4 @@
- var express = require('express');
+var express = require('express');
 var router = express.Router();
 var users = require('./users');
 var facebook = require('../config/facebook');
@@ -40,7 +40,7 @@ module.exports = function (passport) {
 
 	/* Handle Registration POST */
 	router.post('/signup', passport.authenticate('signup', {
-		successRedirect: '/home',
+		successRedirect: '/account/additional-information',
 		failureRedirect: '/signup',
 		failureFlash : true
 	}));
