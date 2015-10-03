@@ -29,3 +29,6 @@ node_modules
 # Security Stuff
 ## SSL
 ssl.key
+
+#linux stuff
+*.swp
