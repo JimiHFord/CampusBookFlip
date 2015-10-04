@@ -7,5 +7,6 @@ module.exports = {
   facebook: facebook,
   twitter: twitter,
   github: github,
-  google: google
+  google: google,
+  providers: [ facebook.providerName, twitter.providerName ]
 };

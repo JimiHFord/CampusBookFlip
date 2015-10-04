@@ -1,6 +1,7 @@
 var express = require('express'),
 		router = express.Router(),
-		Users = require('../models/User');
+		mongoose = require('mongoose'),
+		Users = mongoose.model('User');
 
 
 module.exports = function() {
