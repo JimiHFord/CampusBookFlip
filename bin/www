@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var path = require('path');
+var yaml_config = require('node-yaml-config');
 
 var isSSL = true;
 var key, cert;
@@ -15,8 +16,9 @@ try {
 
 var debug = require('debug')('CampusBookFlip');
 var app = require('../app')();
+var config = yaml_config.load(__dirname+'/../config/site.yaml');
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', config.port || (process.env.PORT || 3000));
 var server;
 
 if(isSSL) {
