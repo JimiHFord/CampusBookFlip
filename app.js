@@ -1,15 +1,14 @@
 module.exports = function () {
-
-
-
+  var yaml_config = require('node-yaml-config');
+  var config = yaml_config.load('./config/db.yaml');
   // express app
   var express = require('express');
   var app = express();
 
   // database config and connection
-  var dbConfig = require('./config/db');
+  var dbConfig = config.database;
   var mongoose = require('mongoose');
-  mongoose.connect(dbConfig.uri);
+  mongoose.connect('mongodb://'+dbConfig.host+'/'+dbConfig.db);
 
   // register models
   require('./models/initialize')();
@@ -26,6 +25,12 @@ module.exports = function () {
 
 
   app.use(session(sessionConfig));
+  app.use(function (req, res, next) {
+    if (!req.session) {
+      return next(new Error('disconnected from redis server')); // handle error
+    }
+    next(); // otherwise continue
+  });
   app.use(passport.initialize());
   app.use(passport.session());
 

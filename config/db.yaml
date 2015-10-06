@@ -1,0 +1,21 @@
+default:
+  database:
+    host: 'localhost'
+    db: 'cbf-dev'
+  redis:
+    host: 'localhost'
+    port: 6379
+development:
+  database:
+    host: 'localhost'
+    db: 'cbf-dev'
+  redis:
+    host: 'localhost'
+    port: 6379
+production:
+  database:
+    host: 'localhost'
+    db: 'cbf-prd'
+  redis:
+    host: 'localhost'
+    port: 6379
