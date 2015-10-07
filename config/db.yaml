@@ -5,6 +5,7 @@ default:
   redis:
     host: 'localhost'
     port: 6379
+    secret: jv93n8x9wp9h3h98hqllwekno09j2nds302v8hzq9eg7stwhx54f2mv2bgd02j
 development:
   database:
     host: 'localhost'
@@ -12,6 +13,7 @@ development:
   redis:
     host: 'localhost'
     port: 6379
+    secret: jv93n8x9wp9h3h98hqllwekno09j2nds302v8hzq9eg7stwhx54f2mv2bgd02j
 production:
   database:
     host: 'localhost'
@@ -19,3 +21,4 @@ production:
   redis:
     host: 'localhost'
     port: 6379
+    secret: jv93n8x9wp9h3h98hqllwekno09j2nds302v8hzq9eg7stwhx54f2mv2bgd02j

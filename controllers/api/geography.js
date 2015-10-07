@@ -2,7 +2,7 @@ var express = require('express'),
     router = express.Router(),
     mongoose = require('mongoose'),
     College = mongoose.model('College'),
-    _ = require('underscore'),
+    _ = require('lodash'),
     async = require('async'),
     states = require('../../static-data/states');
 
