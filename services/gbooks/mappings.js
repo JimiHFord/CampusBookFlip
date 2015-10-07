@@ -1,5 +1,5 @@
 /*
-intitle:  Returns results where the text following this keyword is found in the 
+intitle:  Returns results where the text following this keyword is found in the
           title.
 inauthor: Returns results where the text following this keyword is found in the
           author.
@@ -15,8 +15,6 @@ oclc: Returns results where the text following this keyword is the Online
 */
 
 module.exports = {
-  apiKey: 'AIzaSyAjaQRAlaTJmy_rOv0aobBicQ8-SDzwsHA',
-  baseUrl: 'https://www.googleapis.com/books/v1/volumes',
   query: 'q',
   title: 'intitle',
   author: 'inauthor',
