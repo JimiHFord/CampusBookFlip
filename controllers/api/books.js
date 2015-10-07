@@ -1,7 +1,6 @@
 var express = require('express'),
     router = express.Router(),
     gbooks = require('../../services/gbooks/gbooks'),
-    // _ = require('underscore'),
     async = require('async'),
     mongoose = require('mongoose'),
     Book = mongoose.model('Book');
