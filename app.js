@@ -45,10 +45,6 @@ module.exports = function () {
   // middleware
   var lessMiddleware = require('less-middleware');
 
-
-
-
-
   // view engine setup
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'hbs');

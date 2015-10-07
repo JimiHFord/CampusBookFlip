@@ -1,0 +1,15 @@
+default:
+  apiKeys:
+    - AIzaSyAjaQRAlaTJmy_rOv0aobBicQ8-SDzwsHA   # jimi
+    - AIzaSyBblcrFcwN0GTJV2R_75TB2Dnjtv8bCsZg   # dave
+  baseUrl: https://www.googleapis.com/books/v1/volumes
+development:
+  apiKeys:
+    - AIzaSyAjaQRAlaTJmy_rOv0aobBicQ8-SDzwsHA   # jimi
+    - AIzaSyBblcrFcwN0GTJV2R_75TB2Dnjtv8bCsZg   # dave
+  baseUrl: https://www.googleapis.com/books/v1/volumes
+production:
+  apiKeys:
+    - AIzaSyAjaQRAlaTJmy_rOv0aobBicQ8-SDzwsHA   # jimi
+    - AIzaSyBblcrFcwN0GTJV2R_75TB2Dnjtv8bCsZg   # dave
+  baseUrl: https://www.googleapis.com/books/v1/volumes

@@ -1,11 +1,17 @@
 var request = require('request'),
-    config = require('./config');
+    mappings = require('./mappings'),
+    config = require('node-yaml-config').load(__dirname + '/config.yaml');
+
+function _randomInt(min, max)
+{
+  return Math.floor(Math.random() * (max-min+1) + min);
+}
 
 function _format(options) {
   var append = '';
   for(var option in options) {
-    if(option in config) {
-      append += '+' + config[option] + ':' + options[option];
+    if(option in mappings) {
+      append += '+' + mappings[option] + ':' + options[option];
     }
   }
   return append;
@@ -13,15 +19,13 @@ function _format(options) {
 
 function search(query, options, callback) {
   var furtherOptions = _format(options);
-
   options = {
     url: config.baseUrl,
     qs: {
       q: query + furtherOptions,
-      key: config.apiKey
+      key: config.apiKeys[_randomInt(0, config.apiKeys.length - 1)]
     }
   };
-  // console.log(options);
   request(options, function(error, response, body) {
     callback(error, response, !error && response.statusCode == 200 ?
       JSON.parse(body) : null);
