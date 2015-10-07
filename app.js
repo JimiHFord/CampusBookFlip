@@ -19,7 +19,7 @@ module.exports = function () {
   var session = require('express-session');
   // configure session - reuse mongoose connection for data store
   var sessionConfig = require('./config/session')({
-    mongoose: mongoose,
+    secret: config.redis.secret,
     session: session
   });
 
