@@ -1,6 +1,8 @@
 module.exports = function () {
   var yaml_config = require('node-yaml-config');
   var config = yaml_config.load('./config/db.yaml');
+  var health = require('fh-health');
+  health.init();
   // express app
   var express = require('express');
   var app = express();
@@ -78,6 +80,12 @@ module.exports = function () {
   var api = require('./controllers/api/api');
   var account = require('./controllers/account');
 
+  app.get('/healthcheck', function(req, res) {
+    health.runTests(function(err, data) {
+      if(err) { res.status(500).end('An error occurred.'); }
+      else { res.json(JSON.parse(data)); }
+    });
+  });
   app.use('/', controllers);
   app.use('/users', usersRoute());
   app.use('/api', api);
